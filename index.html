@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>ମୋ ପରୀକ୍ଷା ସାଥି - Modern UI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Oriya:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Noto Sans Oriya', sans-serif}
+body{background:#f7f3ff;color:#222;line-height:1.7}
+header{background:linear-gradient(120deg,#ff6a00,#ff2e63);padding:35px 0;text-align:center;color:#fff;border-bottom-left-radius:50px;border-bottom-right-radius:50px;box-shadow:0 5px 18px rgba(0,0,0,.18)}
+nav{display:flex;justify-content:center;gap:30px;padding:15px 0;background:#fff;border-radius:50px;width:90%;margin:20px auto;box-shadow:0 3px 15px rgba(0,0,0,.1)}
+nav a{font-weight:600;color:#ff2e63;text-decoration:none;transition:.3s}
+nav a:hover{color:#ff6a00;transform:scale(1.08)}
+section{padding:45px 20px;max-width:1200px;margin:auto}
+h2{text-align:center;font-size:28px;color:#ff2e63;margin-bottom:15px;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:20px}
+.card{background:#fff;padding:18px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.08);cursor:pointer;transition:.3s;text-align:center}
+.card:hover{transform:translateY(-6px);box-shadow:0 10px 28px rgba(0,0,0,.13);background:linear-gradient(120deg,#ff6a00,#ff2e63);color:#fff}
+.sub-box{background:#fff;padding:16px;border-radius:12px;box-shadow:0 3px 10px rgba(0,0,0,.08);margin-top:8px}
+.sub-btn{display:block;padding:10px;margin:6px 0;background:#ffdde1;border:none;border-radius:8px;font-weight:600;cursor:pointer;transition:.3s;width:100%}
+.sub-btn:hover{background:#ff2e63;color:#fff}
+footer{text-align:center;background:#ff2e63;color:#fff;padding:15px;border-top-left-radius:50px;border-top-right-radius:50px;margin-top:40px}
+</style>
+</head>
+<body>
+<header>
+<h1>ମୋ ପରୀକ୍ଷା ସାଥି</h1>
+<p>ଶିଖ, ଅଭ୍ୟାସ କର, ସଫଳ ହେଅ</p>
+</header>
+<nav>
+<a href="#ebooks">📚 ପୁସ୍ତକ</a>
+<a href="#notes">📝 ନୋଟ୍ସ</a>
+<a href="#practice">🧠 ଅଭ୍ୟାସ</a>
+</nav>
+<section id="ebooks">
+<h2>📚 E‑Books</h2>
+<div class="grid">
+<div class="card">Odia</div>
+<div class="card">English</div>
+<div class="card">Mathematics</div>
+<div class="card">Science</div>
+<div class="card">Social Science</div>
+</div>
+</section>
+<section id="notes">
+<h2>📝 Notes</h2>
+<div class="grid">
+<div class="card">Odia<div class="sub-box"><button class="sub-btn">Chapter 1</button><button class="sub-btn">Chapter 2</button><button class="sub-btn">Chapter 3</button></div></div>
+<div class="card">English<div class="sub-box"><button class="sub-btn">Chapter 1</button><button class="sub-btn">Chapter 2</button></div></div>
+<div class="card">Mathematics<div class="sub-box"><button class="sub-btn">Number System</button><button class="sub-btn">Algebra</button><button class="sub-btn">Geometry</button></div></div>
+</div>
+</section>
+<section id="practice">
+<h2>🧠 Practice</h2>
+<div class="grid">
+<div class="card">Odia<div class="sub-box"><button class="sub-btn">Grammar Quiz</button><button class="sub-btn">Literature Quiz</button></div></div>
+<div class="card">English<div class="sub-box"><button class="sub-btn">Vocabulary</button><button class="sub-btn">Reading</button></div></div>
+<div class="card">Mathematics<div class="sub-box"><button class="sub-btn">Arithmetic</button><button class="sub-btn">Algebra</button><button class="sub-btn">Geometry</button></div></div>
+<div class="card">Science<div class="sub-box"><button class="sub-btn">Physics</button><button class="sub-btn">Chemistry</button><button class="sub-btn">Biology</button></div></div>
+</div>
+</section>
+<footer style="background:linear-gradient(120deg,#ff6a00,#ff2e63);padding:22px;font-size:18px;box-shadow:0 -5px 18px rgba(0,0,0,.15)">© 2025 ମୋ ପରୀକ୍ଷା ସାଥି | ❤ ଦ୍ୱାରା ତିଆରି</footer>
+</body>
+</html>
