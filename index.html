@@ -19,6 +19,7 @@ nav a{font-weight:600;color:#ff2e63;text-decoration:none;transition:.3s}
 nav a:hover{color:#ff6a00;transform:scale(1.08)}
 section{padding:45px 20px;max-width:1200px;margin:auto}
 h2{text-align:center;font-size:28px;color:#ff2e63;margin-bottom:15px;font-weight:700}
+
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:20px}
 .card{background:#fff;padding:18px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.08);cursor:pointer;transition:.3s;text-align:center}
 .card:hover{transform:translateY(-6px);box-shadow:0 10px 28px rgba(0,0,0,.13);background:linear-gradient(120deg,#ff6a00,#ff2e63);color:#fff}
@@ -26,55 +27,170 @@ h2{text-align:center;font-size:28px;color:#ff2e63;margin-bottom:15px;font-weight
 .sub-btn{display:block;padding:10px;margin:6px 0;background:#ffdde1;border:none;border-radius:8px;font-weight:600;cursor:pointer;transition:.3s;width:100%}
 .sub-btn:hover{background:#ff2e63;color:#fff}
 footer{text-align:center;background:#ff2e63;color:#fff;padding:15px;border-top-left-radius:50px;border-top-right-radius:50px;margin-top:40px}
+h1 {
+      margin: 0;
+      font-size: 22px;
+      animation: glow 6s infinite;
+    }
+    @keyframes glow {
+      0% { color: #fff; text-shadow: 0 0 8px crimson; }
+      25% { color: #ffeb3b; text-shadow: 0 0 10px green; }
+      50% { color: #00bcd4; text-shadow: 0 0 10px blue; }
+      75% { color: #e91e63; text-shadow: 0 0 10px purple; }
+      100% { color: #fff; text-shadow: 0 0 8px crimson; }
+    }
+
 </style>
 </head>
 <body>
 <header>
 <h1>🎓ମୋ ପରୀକ୍ଷା ସାଥି</h1>
 <p>🤗।। ନିଜକୁ ନିଜେ ଜାଣିବା, ସମଗ୍ର ବିଶ୍ୱକୁ ଜିଣିବା।।🤗</p>
-  ଏହା ଶୀଘ୍ର କାର୍ଯ୍ୟକାରୀ ହେବାକୁ ଯାଉଛି....
+  
 </header>
 <nav>
-<a href="#ebooks">📚 ଇ-ପୁସ୍ତକ</a>
-<a href="#notes">📝 ସହାୟକସାମଗ୍ରୀ</a>
+<a href="#ebooks">📚 ଇ-ପାଠ୍ୟପୁସ୍ତକ</a>
+<a href="#notes">📝 ସହାୟକ ସାମଗ୍ରୀ</a>
 <a href="#practice">🧠 ଅଭ୍ୟାସ</a>
 </nav>
 <section id="ebooks">
-<h2>📚 ଇ-ପୁସ୍ତକ <br>ଶୀଘ୍ର ଉପଲବ୍ଧ ହେବ </h2>
+<h2>📚 ଇ-ପାଠ୍ୟପୁସ୍ତକ </h2>
 <div class="grid">
-<div class="card">ସାହିତ୍ୟ ସିନ୍ଧୁ</div>
-<div class="card">ଓଡିଆ ମାଧ୍ୟମିକ ବ୍ୟାକରଣ</div>
-<div class="card">ଇଂରାଜୀ</div>
-<div class="card">ଇଂରାଜୀ ବ୍ୟାକରଣ</div>
-<div class="card">ସଂସ୍କୃତସାହିତ୍ୟବଲ୍ଲରୀ</div>
-<div class="card">ସଂସ୍କୃତବ୍ୟାକରଣପ୍ରକାଶ</div>
-<div class="card">ହିନ୍ଦୀ ସୌରଭ</div>
-<div class="card">ହିନ୍ଦୀ ବ୍ୟାକରଣ</div>
-<div class="card">ମାଧ୍ୟମିକ ଗଣିତ</div>
-<div class="card">ଜ୍ୟାମିତ</div>
-<div class="card">ଜୀବ ବିଜ୍ଞାନ</div>
-<div class="card">ଭୌତିକ ବିଜ୍ଞାନ</div>
-<div class="card">ଇତିହାସ</div>
-<div class="card">ଭୁଗୋଳ</div>
+<div class="card">
+     <a href="https://sme.odisha.gov.in/sites/default/files/2020-03/mil-x.pdf" target="_blank" style="text-decoration: none; color: inherit;">ସାହିତ୍ୟ ସିନ୍ଧୁ</a>
+  </div>
+<div class="card">
+<a href="https://sme.odisha.gov.in/sites/default/files/2020-03/grammer%20odia1.pdf" target="_blank" style="text-decoration: none; color: inherit;">ଓଡିଆ ମାଧ୍ୟମିକ ବ୍ୟାକରଣ</a>
+</div>
+<div class="card">
+<a href="https://sme.odisha.gov.in/sites/default/files/2020-03/Eng-10th.pdf" target="_blank" style="text-decoration: none; color: inherit;">ଇଂରାଜୀ</a>
+</div>
+<div class="card">
+<a href="https://sme.odisha.gov.in/sites/default/files/2020-03/Eng-10th%20ND.pdf" target="_blank" style="text-decoration: none; color: inherit;">ଇଂରାଜୀ ନୋନ୍-ଡିଟେଲ୍-ଡ୍</a>
+</div>
+<div class="card">
+<a href="https://sme.odisha.gov.in/sites/default/files/2020-03/Class-X-Sanskrit.pdf" target="_blank" style="text-decoration: none; color: inherit;">ସଂସ୍କୃତସାହିତ୍ୟବଲ୍ଲରୀ</a>
+</div>
+<div class="card">
+<a href="https://sme.odisha.gov.in/sites/default/files/2020-03/Class%20X%20Sanskrit-02.pdf" target="_blank" style="text-decoration: none; color: inherit;">ସଂସ୍କୃତବ୍ୟାକରଣପ୍ରକାଶ</a>
+</div>
+<div class="card">
+<a href="https://sme.odisha.gov.in/sites/default/files/2020-03/Class%20X%20-%20Hindi.pdf" target="_blank" style="text-decoration: none; color: inherit;">ହିନ୍ଦୀ ସୌରଭ</a>
+</div>
+<div class="card">
+<a href="https://sme.odisha.gov.in/sites/default/files/2020-03/Class-X-Hindi%20Grammar.pdf" target="_blank" style="text-decoration: none; color: inherit;">ହିନ୍ଦୀ ବ୍ୟାକରଣ</a>
+</div>
+<div class="card">
+<a href="https://sme.odisha.gov.in/text-books-for-class-x?field_subject_category_target_id=570" target="_blank" style="text-decoration: none; color: inherit;">ମାଧ୍ୟମିକ ବୀଜଗଣିତ</a>
+</div>
+<div class="card">
+<a href="https://sme.odisha.gov.in/text-books-for-class-x?field_subject_category_target_id=570" target="_blank" style="text-decoration: none; color: inherit;">ମାଧ୍ୟମିକ ଜ୍ୟାମିତ</a>
+</div>
+<div class="card">
+<a href="https://sme.odisha.gov.in/text-books-for-class-x?field_subject_category_target_id=571" target="_blank" style="text-decoration: none; color: inherit;">ଜୀବ ବିଜ୍ଞାନ</a>
+</div>
+<div class="card">
+<a href="https://sme.odisha.gov.in/text-books-for-class-x?field_subject_category_target_id=571" target="_blank" style="text-decoration: none; color: inherit;">ଭୌତିକ ବିଜ୍ଞାନ</a>
+</div>
+<div class="card">
+<a href="https://sme.odisha.gov.in/sites/default/files/2020-03/history%20class-x-2012%20%28final%29.pdf" target="_blank" style="text-decoration: none; color: inherit;">ଇତିହାସ ଓ ରାଜନୀତି ବିଜ୍ଞାନ</a>
+</div>
+<div class="card">
+<a href="https://sme.odisha.gov.in/text-books-for-class-x?field_subject_category_target_id=569" target="_blank" style="text-decoration: none; color: inherit;">ଭୂଗୋଳ ଓ ଅର୍ଥନୀତି</a>
+</div>
 </div>
 </section>
 <section id="notes">
-<h2>📝 ସହାୟକସାମଗ୍ରୀ <br>ଶୀଘ୍ର ଉପଲବ୍ଧ ହେବ</h2>
+<h2>📝 ସହାୟକ ସାମଗ୍ରୀ </h2>
+<h1>ଶୀଘ୍ର ଉପଲବ୍ଧ ହେବାକୁ ଯାଉଛି...</h1>
 <div class="grid">
-<div class="card">ସାହିତ୍ୟ ସିନ୍ଧୁ<div class="sub-box"><button class="sub-btn">ପାଠ ୧</button><button class="sub-btn">ପାଠ ୨</button><button class="sub-btn">ପାଠ ୩</button></div></div>
-<div class="card">ଇଂରାଜୀ<div class="sub-box"><button class="sub-btn">ପାଠ ୧</button><button class="sub-btn">ପାଠ ୨</button></div></div>
-<div class="card">ଗଣିତ<div class="sub-box"><button class="sub-btn">ପାଠ</button><button class="sub-btn">ପାଠ</button><button class="sub-btn">ପାଠ</button></div></div>
+<div class="card">ସାହିତ୍ୟ ସିନ୍ଧୁ<div class="sub-box">
+<button class="sub-btn">ପାଠ ୧</button>
+<button class="sub-btn">ପାଠ ୨</button>
+
+</div></div>
+<div class="card">ଇଂରାଜୀ<div class="sub-box">
+<button class="sub-btn">ପାଠ ୧</button>
+<button class="sub-btn">ପାଠ ୨</button>
+</div></div>
+<div class="card">ସଂସ୍କୃତ<div class="sub-box">
+<button class="sub-btn">ପାଠ ୧</button>
+<button class="sub-btn">ପାଠ ୨</button>
+</div></div>
+<div class="card">ହିନ୍ଦୀ<div class="sub-box">
+<button class="sub-btn">ପାଠ ୧</button>
+<button class="sub-btn">ପାଠ ୨</button>
+</div></div>
+<div class="card">ଗଣିତ<div class="sub-box">
+<button class="sub-btn">ପାଠ ୧</button>
+<button class="sub-btn">ପାଠ ୨</button>
+</div></div>
+<div class="card">ବିଜ୍ଞାନ<div class="sub-box">
+<button class="sub-btn">ପାଠ ୧</button>
+<button class="sub-btn">ପାଠ ୨</button>
+ 
+</div></div>
+<div class="card">ଇତିହାସ<div class="sub-box">
+<button class="sub-btn">ପାଠ ୧</button>
+<button class="sub-btn">ପାଠ ୨</button>
+
+</div></div>
+<div class="card">ଭୂଗୋଳ<div class="sub-box">
+<button class="sub-btn">ପାଠ ୧</button>
+<button class="sub-btn">ପାଠ ୨</button>
+
+</div></div>
 </div>
 </section>
 <section id="practice">
-<h2>🧠  ଅଭ୍ୟାସ <br>ଶୀଘ୍ର ଉପଲବ୍ଧ ହେବ</h2>
+<h2>🧠 ଅଭ୍ୟାସ </h2>
 <div class="grid">
-<div class="card">ସାହିତ୍ୟ ସିନ୍ଧୁ<div class="sub-box"><button class="sub-btn">ପାଠ ୧</button><button class="sub-btn">ପାଠ ୨</button><button class="sub-btn">ପାଠ ୩</button></div></div>
-<div class="card">ଇଂରାଜୀ<div class="sub-box"><button class="sub-btn">ପାଠ ୧</button><button class="sub-btn">ପାଠ ୨</button></div></div>
-<div class="card">ଗଣିତ<div class="sub-box"><button class="sub-btn">ପାଠ</button><button class="sub-btn">ପାଠ</button><button class="sub-btn">ପାଠ</button></div></div>
-<div class="card">ବିଜ୍ଞାନ<div class="sub-box"><button class="sub-btn">ପାଠ ୧</button><button class="sub-btn">ପାଠ ୨</button><button class="sub-btn">ପାଠ ୩</button></div></div>
-<div class="card">ସଂସ୍କୃତ<div class="sub-box"><button class="sub-btn">ପାଠ ୧</button><button class="sub-btn">ପାଠ ୨</button></div></div>
-<div class="card">ହିନ୍ଦୀ<div class="sub-box"><button class="sub-btn">ପାଠ</button><button class="sub-btn">ପାଠ</button><button class="sub-btn">ପାଠ</button></div></div>
+<div class="card">ସଂସ୍କୃତ<div class="sub-box">
+<button class="sub-btn"onclick="window.location.href='sans/qupa.html'">ସୁଶିଷ୍ୟ ଉପମନ୍ୟୁଃ</button>
+<button class="sub-btn"onclick="window.location.href='sans/qsingha.html'">ସିଂହଶୃଗାଳଶିଶୁକଥା</button>
+<button class="sub-btn" onclick="window.location.href='sans/qswami.html'">ସ୍ୱାମୀ ବିବେକାନନ୍ଦ</button>
+<button class="sub-btn" onclick="window.location.href='sans/qbhoutika.html'">ଭୌତିକ ପର୍ଯ୍ୟାବରଣମ୍</button>
+<button class="sub-btn" onclick="window.location.href='sans/qsita.html'">ସୀତାୟାଃ ବନଗମନମ୍</button>
+<button class="sub-btn" onclick="window.location.href='sans/qjudhi.html'">ଯୁଦ୍ଧିଷ୍ଠିରଯକ୍ଷସମ୍ୱାଦ</button>
+<button class="sub-btn" onclick="window.location.href='sans/qsishu.html'">ଶିଶୁବାତ୍ସଲ୍ୟମ୍</button>
+<button class="sub-btn" onclick="window.location.href='sans/qprakruti.html'">ପ୍ରକୃତିପ୍ରତ୍ୟୟ</button>
+</div></div>
+<div class="card">ସାହିତ୍ୟ ସିନ୍ଧୁ<div class="sub-box">
+<button class="sub-btn" onclick="window.location.href='odia/qjanma.html'">ଜନ୍ମଭୂମି</button>
+<button class="sub-btn"onclick="window.location.href='odia/qjanma.html'">ପାଠ ୨</button>
+<button class="sub-btn"onclick="window.location.href='odia/qjanma.html'">ପାଠ ୩</button>
+</div></div>
+<div class="card">ଇଂରାଜୀ<div class="sub-box">
+<button class="sub-btn">ଶୀଘ୍ର ଆସୁଛି..</button>
+<button class="sub-btn">ଶୀଘ୍ର ଆସୁଛି.</button>
+</div></div>
+
+<div class="card">ହିନ୍ଦୀ<div class="sub-box">
+<button class="sub-btn">ଶୀଘ୍ର ଆସୁଛି.</button>
+<button class="sub-btn">ଶୀଘ୍ର ଆସୁଛି.</button>
+<button class="sub-btn">ଶୀଘ୍ର ଆସୁଛି.</button>
+</div></div>
+
+<div class="card">ଗଣିତ<div class="sub-box">
+<button class="sub-btn">ଶୀଘ୍ର ଆସୁଛି.</button>
+<button class="sub-btn">ଶୀଘ୍ର ଆସୁଛି.</button>
+<button class="sub-btn">ଶୀଘ୍ର ଆସୁଛି.</button>
+</div></div>
+<div class="card">ବିଜ୍ଞାନ<div class="sub-box">
+<button class="sub-btn">ଶୀଘ୍ର ଆସୁଛି.</button>
+<button class="sub-btn">ଶୀଘ୍ର ଆସୁଛି.</button>
+<button class="sub-btn">ଶୀଘ୍ର ଆସୁଛି.</button>
+</div></div>
+<div class="card">ଇତିହାସ<div class="sub-box">
+<button class="sub-btn">ଶୀଘ୍ର ଆସୁଛି.</button>
+<button class="sub-btn">ଶୀଘ୍ର ଆସୁଛି.</button>
+</div></div>
+<div class="card">ଭୂଗୋଳ<div class="sub-box">
+<button class="sub-btn">ଶୀଘ୍ର ଆସୁଛି.</button>
+<button class="sub-btn">ଶୀଘ୍ର ଆସୁଛି.</button>
+<button class="sub-btn">ଶୀଘ୍ର ଆସୁଛି.</button>
+</div></div>
+
 </div>
 </div>
 </section>
