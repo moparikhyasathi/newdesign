@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice mo parikhya sathi</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Oriya:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --soft: linear-gradient(120deg,#ff6a00,#ff2e63);
+    --btn: #ff6a00;
+    --btn-hover: #ff2e63;
+    --correct: #00c851;
+    --wrong: #ff4444;
+    --attempted: #ff6a00;
+    --not-attempted: #999;
+    --review: #6a1b9a;
+    --opt-hover: #ff2e63;
+    --text-light: #fff;
+}
+
+body {
+    background: #fff8fb;
+    color: #222;
+    text-align: center;
+    line-height: 1.5;
+    font-family: 'Noto Sans Oriya', sans-serif;
+    font-size: 14px; /* 👈 global font size */
+}
+
+header {
+    background: linear-gradient(120deg,#ff6a00,#ff2e63);
+    padding:5px;
+    color:#fff;
+    border-bottom-left-radius:50px;
+    border-bottom-right-radius:50px;
+    box-shadow:0 5px 18px rgba(0,0,0,.18);
+}
+
+h1 { font-size: 30px; margin-bottom: 5px; }
+
+/* CARD STYLE for Question and Options */
+.card {
+    background:#fff;
+    padding:18px;
+    border-radius:16px;
+    box-shadow:0 6px 20px rgba(0,0,0,.08);
+    transition:.3s;
+    text-align:center;
+}
+.card:hover {
+    transform:translateY(-6px);
+    box-shadow:0 10px 28px rgba(0,0,0,.13);
+    background:linear-gradient(120deg,#ff6a00,#ff2e63);
+    color:#fff;
+}
+
+/* Question Container */
+.question {
+    padding: 25px;
+    margin: 20px auto;
+    max-width: 700px;
+}
+
+.qtitle {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* Options */
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.opt {
+    background: #ffdde1;
+    padding: 10px 0;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    transition: all 0.25s ease;
+}
+
+.opt:hover {
+    background: var(--opt-hover);
+    color: var(--text-light);
+    transform: scale(1.03);
+}
+
+.opt.selected {
+    background: var(--opt-hover);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(255,46,99,0.6);
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+
+.controls button {
+    background: linear-gradient(120deg,#ff6a00,#ff2e63);
+    color: #fff;
+    border: none;
+    padding: 10px 50px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-size: 16px;
+}
+
+.controls button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(255,46,99,0.4);
+}
+
+/* Question Navigation Panel */
+.question-status {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 25px auto;
+}
+
+.q-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    cursor: pointer;
+    color: #fff;
+    transition: transform 0.2s;
+}
+
+.q-circle:hover { transform: scale(1.1); }
+
+.q-attempted { background: var(--attempted); }
+.q-notattempted { background: var(--not-attempted); }
+.q-review { background: var(--review); }
+
+/* Results */
+#results {
+    display: none;
+    margin-top: 20px;
+    text-align: left; /* 👈 left align result text */
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#answers {
+    background: #fff1f7;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.answer-block { border-bottom: 1px solid #ddd; padding: 12px 0; }
+.right { color: var(--correct); font-weight: 700; }
+.wrong { color: var(--wrong); font-weight: 700; }
+
+/* Hide buttons when printing */
+@media print {
+  .controls button, #markBtn, #nextBtn, #prevBtn, #questionStatus { display: none !important; }
+}
+
+footer {
+    text-align:center;
+    background: linear-gradient(120deg,#ff6a00,#ff2e63);
+    color:#fff;
+    padding:15px;
+    border-top-left-radius:50px;
+    border-top-right-radius:50px;
+    margin-top:40px;
+}
+h1 {
+      margin: 0;
+      font-size: 22px;
+      animation: glow 6s infinite;
+    }
+    @keyframes glow {
+      0% { color: #fff; text-shadow: 0 0 8px crimson; }
+      25% { color: #ffeb3b; text-shadow: 0 0 10px green; }
+      50% { color: #00bcd4; text-shadow: 0 0 10px blue; }
+      75% { color: #e91e63; text-shadow: 0 0 10px purple; }
+      100% { color: #fff; text-shadow: 0 0 8px crimson; }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🧠 ଅଭ୍ୟାସ ( ଜନ୍ମଭୂମି )</h1>
+  <p>🌸🌸 ନିଜକୁ ନିଜେ ଜାଣିବା, ସମଗ୍ର ବିଶ୍ୱକୁ ଜାଣିବା 🌸🌸</p>
+</header>
+
+<div id="quizContainer"></div>
+
+<div class="controls" id="controlPanel">
+  <button id="prevBtn">⬅️ ପୂର୍ବ ପ୍ରଶ୍ନ</button>
+  <button id="markBtn">ପୁଣି ଦେଖିବି 🔔</button>
+  <button id="nextBtn">ପର ପ୍ରଶ୍ନ ➡️</button>
+</div>
+
+<div class="question-status" id="questionStatus"></div>
+<div class="status" id="status"></div>
+
+<div id="results">
+  <h2>📊 ଆପଣଙ୍କ ପରୀକ୍ଷା ଫଳ</h2>
+  <p class="status" id="scoreText"></p>
+  <div id="answers"></div>
+  <div class="controls" style="justify-content:center; text-align:center;">
+    <button onclick="printResult()">🖨️ ପ୍ରିଣ୍ଟ କରନ୍ତୁ</button>
+    <button onclick="shareResult()">📤 ସେୟାର କରନ୍ତୁ</button>
+    <button onclick="retakeQuiz()">🔁 ପୁଣି ଆରମ୍ଭ କରନ୍ତୁ</button>
+  </div>
+</div>
+
+<footer>© 2025 ମୋ ପରୀକ୍ଷା ସାଥି | ❤ ଦ୍ୱାରା ତିଆରି</footer>
+
+<script>
+// ✅ Base question pool
+const allQuestions = [
+  {"question": "ଜନ୍ମଭୂମି ପ୍ରବନ୍ଧର ପ୍ରାବନ୍ଧିକଙ୍କ ନାମ କ'ଣ?", "options": ["ମନୋରଂଜନ ଦାସ", "ବଂଶୀଧର ସାମନ୍ତରାୟ", "ଗୋଲକ ବିହାରୀ ଧଳ", "କୃଷ୍ଣଚନ୍ଦ୍ର ପାଣିଗ୍ରାହୀ"], "answer": 3},
+  {"question": "ଲେଖକ କୃଷ୍ଣଚନ୍ଦ୍ର ପାଣିଗ୍ରାହୀ କେଉଁ ମସିହାରେ ଜନ୍ମ ଗ୍ରହଣ କରିଥିଲେ?", "options": ["୧୯୦୯", "୧୯୧୦", "୧୯୧୧", "୧୯୧୨"], "answer": 0},
+  {"question": "ପ୍ରାବନ୍ଧିକଙ୍କ ମୃତ୍ୟୁ କେବେ ହୋଇଥିଲା?", "options": ["୧୯୮୦", "୧୯୮୨", "୧୯୮୭", "୧୯୮୫"], "answer": 2},
+  {"question": "ପ୍ରାବନ୍ଧିକ କେଉଁଠାରେ ଜନ୍ମଗ୍ରହଣ କରିଥିଲେ?", "options": ["ଖିଚିଙ୍ଗ", "ପୁରୀ", "ବାଲେଶ୍ଵର", "ଭଦ୍ରକ"], "answer": 0},
+  {"question": "ଜନ୍ମଭୂମି ପ୍ରବନ୍ଧଟି କେଉଁ ପ୍ରବନ୍ଧ ସଂକଳନରୁ ଉଦ୍ଧୃତ?", "options": ["ଇତିହାସ ଓ କିମ୍ୱଦନ୍ତୀ", "ମୋ ସମୟର ଓଡ଼ିଶା", "ପ୍ରବନ୍ଧ ମାନସ", "ସାରଳା ସାହିତ୍ୟର ଐତିହାସିକ ଚିତ୍ର"], "answer": 2},
+  {"question": "ଜନ୍ମଭୂମି ପ୍ରବନ୍ଧଟିରେ ଲେଖକ କାହାର ପ୍ରକୃତ ଅର୍ଥ ସନ୍ଧାନ କରିଛନ୍ତି?", "options": ["ଜନ୍ମଭୂମି", "ସହର", "ଗ୍ରାମ", "ପାଶ୍ଚାତ୍ୟ ନଗର"], "answer": 0},
+  {"question": "ଲେଖକ କାହାକୁ ନିଜର ମାତା, ଧାତ୍ରୀ ଓ ଶିକ୍ଷୟିତ୍ରୀ ବୋଲି କହିଛନ୍ତି?", "options": ["ଓଡ଼ିଶା", "ପଲ୍ଲୀଗ୍ରାମ", "ଭାରତ", "ପୃଥିବୀ"], "answer": 1},
+  {"question": "ଲେଖକଙ୍କର ସମ୍ବନ୍ଧ କାହା ସହିତ କ୍ଷୀଣ ହେବାକୁ ଲାଗିଛି?", "options": ["ପଲ୍ଲୀ", "ସହର", "ମାତୃଭୂମି", "ଜନନୀ"], "answer": 0},
+  {"question": "ପ୍ରାବନ୍ଧିକ ଆୟୁକୁ କାହା ସହିତ ତୁଳନା କରିଛନ୍ତି?", "options": ["ସୂର୍ଯ୍ୟଙ୍କ ସହ", "ଚନ୍ଦ୍ରଙ୍କ ସହ", "ଶିବଙ୍କ ସହ", "ବୃହସ୍ପତିଙ୍କ ସହ"], "answer": 0},
+  {"question": "ଲେଖକଙ୍କର ପଲ୍ଲୀ ପ୍ରତି ଏକମାତ୍ର କର୍ତ୍ତବ୍ୟ କ'ଣ?", "options": ["ଗ୍ରାମକୁ ଅର୍ଥଦାନ", "ଗ୍ରାମରେ ରହିବା", "ଜନ୍ମସ୍ଥାନ ପଲ୍ଲୀଭୂମିର ସେବା କରିବା", "ଗ୍ରାମଠୁ ଦୂରେଇ ଯିବା"], "answer": 2},
+  {"question": "ଶିକ୍ଷା ସମାପନ ସହିତ ଶିକ୍ଷିତମାନଙ୍କର ଏକ ପ୍ରକାର କ'ଣ ଘଟିଥାଏ?", "options": ["ପୁନର୍ଜନ୍ମ", "ଜୀବିକାର୍ଜନ", "ଜାତିସ୍ମର", "ଧର୍ମାନ୍ତର"], "answer": 0},
+  {"question": "ପଲ୍ଲୀର ନରନାରୀଙ୍କ ମଧ୍ୟରେ କେଉଁ ପରମ୍ପରା ଗଢ଼ି ଉଠିଥାଏ?", "options": ["ସ୍ବାର୍ଥପରତା", "ସହରୀ ପରମ୍ପରା", "ଏକ ପରିବାରତ୍ୱ", "ଯୌଥ ପରିବାରତ୍ୱ"], "answer": 2},
+  {"question": "ସାର ମାଉସୀ ଗ୍ରାମ ମୁଣ୍ଡରେ କେଉଁଠାରେ ବହୁ ବର୍ଷ ଧରି ପ୍ରସ୍ତର ମୂର୍ତି ପରି ବସି ଆସିଛି?", "options": ["ବରଗଛ ମୂଳେ", "ଦାଣ୍ଡରେ", "ଛୋଟ ପିଣ୍ଡାରେ", "ଆସନରେ"], "answer": 2},
+  {"question": "ଗ୍ରାମର ମଝିରେ କାହାର ଘର?", "options": ["ହରି", "ଗୋପାଳ", "ଗୋବିନ୍ଦା", "ଗଣେଶ"], "answer": 2},
+  {"question": "ଗୋବିନ୍ଦା ଭାଇ ଲେଖକଙ୍କ ପାଖରେ କ'ଣ ବାଖ୍ୟା କରୁଥିଲା?", "options": ["ଭାଗବତ", "ମନବୋଧ ଚଉତିଶା", "ଗୀତା", "ପୁରାଣ"], "answer": 1},
+  {"questiont": "ଗୋବିନ୍ଦା ଭାଇ କାହାକୁ ଦୁର୍ଗ କରି ସମଗ୍ର ବିଶ୍ବ ବିରୋଧରେ ବିଦ୍ରୋହ ଘୋଷଣା କରୁଥିଲା?", "options": ["ତା'ର କୁଟୀରକୁ", "ପଲ୍ଲୀ ଗ୍ରାମକୁ", "ଭାଗବତ ଟୁଙ୍ଗୀକୁ", "ଗାଁ ଦାଣ୍ଡକୁ"], "answer": 0},
+  {"question": "ଗ୍ରାମଟି କେଉଁଥିରେ ପରିପୂର୍ଣ୍ଣ ହୋଇଗଲାଣି?", "options": ["ସ୍ୱର୍ଣଶୀର୍ଷ ଧାନ୍ୟରେ", "ନବାଗତ ଅତିଥିରେ", "ବୃକ୍ଷରାଜିରେ", "ଟିଉବ୍‌ରେ"], "answer": 1},
+
+  {"question": "ବେକାର ଯୁବଗୋଷ୍ଠୀ ପୁଷ୍ପିତ ପଳାଶବନରେ କ'ଣ ଦେଖନ୍ତି?", "options": ["ଆହତର ରକ୍ତ", "ରକ୍ତକେତନ", "ବିଦ୍ରୋହର ବହ୍ନି", "ଲାଲଝଣ୍ଡା"], "answer": 2},
+  {"question": "ବେକାର ଯୁବଗୋଷ୍ଠୀ କେଉଁଠାରେ ଦେଖନ୍ତି ଆହବର ରକ୍ତ?", "options": ["ପଳାଶ ବନରେ", "କୃଷ୍ଣଚୂଡ଼ାରେ", "ଗୋଲାପ ବନରେ", "ସୁଳପଦ୍ମରେ"], "answer": 3},
+  {"question": "ପଲ୍ଲୀର କର୍ମ ଯୋଜନାରେ ଅଂଶଗ୍ରହଣ ପାଇଁ ପ୍ରାବନ୍ଧିକଙ୍କ ନିକଟରେ କେଉଁ ଶକ୍ତିର ଅଭାବ ଅଛି?", "options": ["ଭୌତିକ", "ମାନସିକ", "ନୈତିକ", "ଦୈବୀ"], "answer": 2},
+  {"question": "ପ୍ରାବନ୍ଧିକ ଜନ୍ମଭୂମିରୁ ଖାଲି କ'ଣରୁ ବିଚ୍ୟୁତ ହୋଇଛନ୍ତି?", "options": ["ଦେଶ", "ମନରୁ ନୁହଁ କର୍ମରୁ", "ପର୍ବ", "ସ୍ନେହ"], "answer": 1},
+  {"question": "ନୂଆ ମେଘକୁ କେଉଁମାନେ ଚାହିଁ ରୁହନ୍ତି?", "options": ["ଗ୍ରାମବାସୀ", "ପଲ୍ଲୀଜନ", "ଚାଷୀକୂଳ", "ଉପରୋକ୍ତ ସମସ୍ତ"], "answer": 3},
+ 
+  {"question": "ରଜପର୍ବରେ ଗ୍ରାମବାସୀମାନେ କ'ଣ ଖେଳନ୍ତି?", "options": ["ଦୋଳି", "ପଶା", "ଯୁଆ", "କବାଡ଼ି"], "answer": 0},
+  {"question": "ଗ୍ରାମ ମଧ୍ୟରେ ଏକ ପରିବାରତ୍ୱର ପରମ୍ପରା ସ୍ବରୂପ କେଉଁଟି?", "options": ["ମନବୋଧ ଚଉତିଶା ବାଖ୍ୟା ଶୁଣାଇବା", "ଜାତିବର୍ଣ୍ଣ ନିର୍ବିଶେଷ ଭାବରେ ପରସ୍ପର ସଂପର୍କ ରଖିବା", "ଅତିଥି ସମ୍ବାଦ", "ପର୍ବରେ ଭୁଲିଯିବା"], "answer": 1},
+  {"question": "ଧରଣୀ ଶସ୍ୟଶ୍ୟାମଳା ହେବାରେ କାହାର ଶ୍ରମ ନିହିତ?", "options": ["ଶ୍ରମଜୀବିମାନଙ୍କ", "ନବଯୁବକଙ୍କ", "ନବାଗତମାନଙ୍କ", "ବୃଦ୍ଧମାନଙ୍କ"], "answer": 0},
+  {"question": "ଗ୍ରାମର କର୍ମଯୋଜନାରେ କାହାର ସ୍ଥାନ ନାହିଁ?", "options": ["ନବଯୁବକ", "ଗୋବିନ୍ଦା ଭାଇ", "ଲେଖକ", "ସାର ମାଉସୀ"], "answer": 2},
+  {"question": "ଗ୍ରାମ ଭୂମିର ପୂର୍ଣ୍ଣତା କେଉଁ ସମୟରେ?", "options": ["ଗ୍ରୀଷ୍ମ ଖରା", "ଜ୍ୟେଷ୍ଠ ବର୍ଷା", "ହେମନ୍ତ ସ୍ୱର୍ଣଶୀର୍ଷ ଧାନ", "ଶୀତ କାକର ବିନ୍ଦୁ"], "answer": 2},
+  {"question": "କୃଷ୍ଣ କେଉଁଠିକୁ ତିନି ଦିନ ରହି ଯାଇଥିଲେ?", "options": ["ବୃନ୍ଦାବନ", "ମଥୁରା", "ଗୋପପୁର", "ଦ୍ବାରକା"], "answer": 1},
+  {"question": "ଜନ୍ମଭୂମି ପ୍ରତି ବିଶ୍ୱାସଘାତକତାରୁ କିଏ ପାର ପାଇନଥିଲେ?", "options": ["ରାମ", "କୃଷ୍ଣ", "ବୁଦ୍ଧ", "ୟୀଶୁ"], "answer": 1},
+  {"question": "କିଏ ଶଶିକଳା ପରି ଦୀନା କ୍ଷୀଣା ହୋଇଗଲେ?", "options": ["ରାଧା", "ଗୋପନାରୀ", "ୟଶୋଦା", "ନନ୍ଦରାଜା"], "answer": 0},
+  {"question": "କୃଷ୍ଣ କେଉଁଠି ନିଜର ସାମ୍ରାଜ୍ୟ ସ୍ଥାପନ କରିଥିଲେ?", "options": ["ଗୋପପୁର", "ଦ୍ବାରକା", "ବୃନ୍ଦାବନ", "ମଥୁରା"], "answer": 1},
+  {"question": "କୃଷ୍ଣଙ୍କ ଅଭ୍ରଂକଷ ପ୍ରାସାଦ କେଉଁଠି ନିମଗ୍ନ ହେଲା?", "options": ["ସମୁଦ୍ର", "ନଦୀ", "ଅତଳ ଜଳଧି", "ପୁଷ୍କରିଣୀ"], "answer": 2},
+  {"question": "ଦ୍ବାରକାର ଯଦୁବଂଶ କେଉଁଠି ଧ୍ୱଂସ ହୋଇଗଲେ?", "options": ["ପ୍ରଭାସ ତୀର୍ଥ", "ପୁଷ୍କର ତୀର୍ଥ", "ଦ୍ବାରକା", "ଓଡ଼େପାତୀର୍ଥ"], "answer": 0},
+  {"question": "ଦ୍ଵାରକାର ରାଜଭୋଗରେ କୃଷ୍ଣଙ୍କ ପାଦୁକା କିପରି ବର୍ଣ୍ଣ ଧାରଣ କରିଥିଲା?", "options": ["ଅଗ୍ନି ପରି", "ନବ ପୁଷ୍ପିତ ପଲ୍ଲବ", "ଆକାଶ ମେଘ", "ନବପଲ୍ଲବ ପରି ରକ୍ତାଭ"], "answer": 3},
+  {"question": "ବୃନ୍ଦାବନର ପୁଷ୍ପିତ କଦମରେ ଆଜି ମଧ୍ୟ କିଏ ନୃତ୍ୟ କରିଥାଏ?", "options": ["ମୟୂର", "ହରିଣୀ", "ହଂସ", "ବନ୍ୟପକ୍ଷୀ"], "answer": 0},
+  {"question": "ଯାହାର ଲୌହଶର ଶ୍ରୀକୃଷ୍ଣଙ୍କ ପଦବିଦ୍ଧ କରିଥିଲା?", "options": ["ବ୍ୟାଧ", "ଶତ୍ରୁ", "ମଦ୍ୟପ ବଂଶଧର", "ଅର୍ଜୁନ"], "answer": 0},
+  {"question": "ଏଟ୍ଲାସ୍ କେଉଁମାନଙ୍କର ଦେବତା ଅଟନ୍ତି?", "options": ["ଭାରତୀୟ", "ମିଶରୀୟ", "ଗ୍ରୀସୀୟ", "ଇଉରୋପୀୟ"], "answer": 2},
+  {"question": "ଗୋପପୁର ଓ ମଥୁରା ମଧ୍ୟରେ କେଉଁ ନଦୀ ବହି ଚାଲିଛି?", "options": ["ଗଙ୍ଗା", "ସରଜୁ", "ସରସ୍ୱତୀ", "ୟମୁନା"], "answer": 3},
+  {"question": "ପ୍ରାବନ୍ଧିକ ତାଙ୍କ ଜନ୍ମଭୂମିକୁ କାହା ସହ ତୁଳନା କରିଛନ୍ତି?", "options": ["ପୃଥିବୀ ସହିତ", "ଆକାଶ ସହିତ", "ସୂର୍ଯ୍ୟ ସହିତ", "ମାତା, ଧାତ୍ରୀ ଓ ଶିକ୍ଷୟିତ୍ରୀ"], "answer": 3},
+  {"question": "ବଂଶୀ ସୁଣିଲେ କାହାର ମନ ଅହେତୁକ ଓ ଅନାହୃତ ବ୍ୟଥାରେ ଭାରାକ୍ରାନ୍ତ ହୋଇଉଠେ?", "options": ["ଦ୍ବାରକାର ଅଷ୍ଟପାଟ ବଂଶୀ", "ଅନୁଢା ଗୋପକନ୍ୟା", "ମଧୁରା କିଶୋରୀ", "ଦ୍ବାରକା ନାରୀ"], "answer": 1},
+  {"question": "କେଉଁ ଦେବତା ବିଶ୍ୱର ସମସ୍ତ ଭାର ବହନ କରି କୁବ୍ଜା ହୋଇଛନ୍ତି?", "options": ["ୟୀଶୁ", "ଏଟ୍ଲାସ", "କୃଷ୍ଣ", "ନାନକ"], "answer": 1}
+
+
+  // 👉 Add more questions here (total more than 20 for randomization)
+];
+
+// ✅ Shuffle helper function
+function shuffleArray(arr){
+  return arr.sort(()=>Math.random()-0.5);
+}
+
+// ✅ Pick random 20 and shuffle their options
+let quizData = shuffleArray(allQuestions).slice(0,20).map(q=>{
+  const shuffledOpts = shuffleArray([...q.options]);
+  const correctIndex = shuffledOpts.indexOf(q.options[q.answer]);
+  return {...q, options: shuffledOpts, answer: correctIndex};
+});
+
+let currentIndex = 0;
+let userAnswers = [];
+let reviewMarks = [];
+
+// Render question
+function renderQuestion(index){
+  const q = quizData[index];
+  const container = document.getElementById("quizContainer");
+  container.innerHTML = `
+    <div class="card question">
+      <div class="qtitle">${index+1}. ${q.question}</div>
+      <div class="options">
+        ${q.options.map((opt,i)=>`<div class="opt card" data-index="${i}">${opt}</div>`).join('')}
+      </div>
+    </div>
+  `;
+  document.getElementById("status").textContent = `ପ୍ରଶ୍ନ ${index+1} / ${quizData.length}`;
+
+  document.querySelectorAll(".opt").forEach(opt=>{
+    opt.addEventListener("click", ()=>{
+      document.querySelectorAll(".opt").forEach(o=>o.classList.remove("selected"));
+      opt.classList.add("selected");
+      userAnswers[index] = parseInt(opt.dataset.index);
+      updateStatus();
+    });
+  });
+  updateCircles();
+}
+
+function updateCircles(){
+  const panel = document.getElementById("questionStatus");
+  panel.innerHTML = quizData.map((q,i)=>{
+    let cls = "q-notattempted";
+    if(reviewMarks[i]) cls = "q-review";
+    else if(userAnswers[i] !== undefined) cls = "q-attempted";
+    return `<div class="q-circle ${cls}" onclick="jumpTo(${i})">${i+1}</div>`;
+  }).join('');
+}
+
+function jumpTo(i){
+  currentIndex = i;
+  renderQuestion(currentIndex);
+}
+
+document.getElementById("markBtn").addEventListener("click", ()=>{
+  reviewMarks[currentIndex] = !reviewMarks[currentIndex];
+  updateCircles();
+});
+
+document.getElementById("nextBtn").addEventListener("click", ()=>{
+  if(currentIndex < quizData.length-1){
+    currentIndex++;
+    renderQuestion(currentIndex);
+  } else {
+    showResults();
+  }
+});
+
+document.getElementById("prevBtn").addEventListener("click", ()=>{
+  if(currentIndex > 0){
+    currentIndex--;
+    renderQuestion(currentIndex);
+  }
+});
+
+function updateStatus(){
+  updateCircles();
+}
+
+function showResults(){
+  let correct = 0;
+  quizData.forEach((q,i)=>{
+    if(userAnswers[i]===q.answer) correct++;
+  });
+  const percent = Math.round((correct/quizData.length)*100);
+  document.getElementById("scoreText").textContent = `ଆପଣଙ୍କ ସ୍କୋର: ${correct}/${quizData.length} (${percent}%)`;
+
+  const answersEl = document.getElementById("answers");
+  answersEl.innerHTML = quizData.map((q,i)=>{
+    const userAns = userAnswers[i] !== undefined ? q.options[userAnswers[i]] : "❌ ନାହିଁ";
+    const isRight = userAnswers[i]===q.answer ? "right" : "wrong";
+    return `<div class="answer-block">
+      <b>${i+1}. ${q.question}</b><br>
+      ✅ ସଠିକ: <span class="right">${q.options[q.answer]}</span><br>
+      🧍 ଆପଣଙ୍କ: <span class="${isRight}">${userAns}</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById("quizContainer").style.display="none";
+  document.getElementById("controlPanel").style.display="none";
+  document.getElementById("questionStatus").style.display="none";
+  document.getElementById("results").style.display="block";
+}
+
+function printResult(){window.print();}
+function shareResult(){
+  const scoreText = document.getElementById("scoreText").textContent;
+  const shareMessage = `🎯 ମୋ ପରୀକ୍ଷା ସାଥି ରେ ମୁଁ ମୋ ଜ୍ଞାନ ପରୀକ୍ଷା କରିଲି!\n${scoreText}\n\n🤩 ଆପଣ ମଧ୍ୟ ଅଂଶଗ୍ରହଣ କରନ୍ତୁ!\n👉 moparikhyasathi.in`;
+  if(navigator.share){
+    navigator.share({title:"ମୋ ପରୀକ୍ଷା ସାଥି - Quiz Result", text:shareMessage, url:window.location.href});
+  } else {alert("Share this message:\n\n"+shareMessage);}
+}
+function retakeQuiz(){
+  quizData = shuffleArray(allQuestions).slice(0,20).map(q=>{
+    const shuffledOpts = shuffleArray([...q.options]);
+    const correctIndex = shuffledOpts.indexOf(q.options[q.answer]);
+    return {...q, options: shuffledOpts, answer: correctIndex};
+  });
+  currentIndex = 0;
+  userAnswers = [];
+  reviewMarks = [];
+  document.getElementById("results").style.display="none";
+  document.getElementById("quizContainer").style.display="block";
+  document.getElementById("controlPanel").style.display="flex";
+  document.getElementById("questionStatus").style.display="flex";
+  renderQuestion(currentIndex);
+}
+
+// Initial render
+renderQuestion(currentIndex);
+</script>
+
+</body>
+</html>

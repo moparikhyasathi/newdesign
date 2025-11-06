@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice mo parikhya sathi</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Oriya:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --soft: linear-gradient(120deg,#ff6a00,#ff2e63);
+    --btn: #ff6a00;
+    --btn-hover: #ff2e63;
+    --correct: #00c851;
+    --wrong: #ff4444;
+    --attempted: #ff6a00;
+    --not-attempted: #999;
+    --review: #6a1b9a;
+    --opt-hover: #ff2e63;
+    --text-light: #fff;
+}
+
+body {
+    background: #fff8fb;
+    color: #222;
+    text-align: center;
+    line-height: 1.5;
+    font-family: 'Noto Sans Oriya', sans-serif;
+    font-size: 14px; /* 👈 global font size */
+}
+
+header {
+    background: linear-gradient(120deg,#ff6a00,#ff2e63);
+    padding:5px;
+    color:#fff;
+    border-bottom-left-radius:50px;
+    border-bottom-right-radius:50px;
+    box-shadow:0 5px 18px rgba(0,0,0,.18);
+}
+
+h1 { font-size: 30px; margin-bottom: 5px; }
+
+/* CARD STYLE for Question and Options */
+.card {
+    background:#fff;
+    padding:18px;
+    border-radius:16px;
+    box-shadow:0 6px 20px rgba(0,0,0,.08);
+    transition:.3s;
+    text-align:center;
+}
+.card:hover {
+    transform:translateY(-6px);
+    box-shadow:0 10px 28px rgba(0,0,0,.13);
+    background:linear-gradient(120deg,#ff6a00,#ff2e63);
+    color:#fff;
+}
+
+/* Question Container */
+.question {
+    padding: 25px;
+    margin: 20px auto;
+    max-width: 700px;
+}
+
+.qtitle {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* Options */
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.opt {
+    background: #ffdde1;
+    padding: 10px 0;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    transition: all 0.25s ease;
+}
+
+.opt:hover {
+    background: var(--opt-hover);
+    color: var(--text-light);
+    transform: scale(1.03);
+}
+
+.opt.selected {
+    background: var(--opt-hover);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(255,46,99,0.6);
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+
+.controls button {
+    background: linear-gradient(120deg,#ff6a00,#ff2e63);
+    color: #fff;
+    border: none;
+    padding: 10px 50px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-size: 16px;
+}
+
+.controls button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(255,46,99,0.4);
+}
+
+/* Question Navigation Panel */
+.question-status {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 25px auto;
+}
+
+.q-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    cursor: pointer;
+    color: #fff;
+    transition: transform 0.2s;
+}
+
+.q-circle:hover { transform: scale(1.1); }
+
+.q-attempted { background: var(--attempted); }
+.q-notattempted { background: var(--not-attempted); }
+.q-review { background: var(--review); }
+
+/* Results */
+#results {
+    display: none;
+    margin-top: 20px;
+    text-align: left; /* 👈 left align result text */
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#answers {
+    background: #fff1f7;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.answer-block { border-bottom: 1px solid #ddd; padding: 12px 0; }
+.right { color: var(--correct); font-weight: 700; }
+.wrong { color: var(--wrong); font-weight: 700; }
+
+/* Hide buttons when printing */
+@media print {
+  .controls button, #markBtn, #nextBtn, #prevBtn, #questionStatus { display: none !important; }
+}
+
+footer {
+    text-align:center;
+    background: linear-gradient(120deg,#ff6a00,#ff2e63);
+    color:#fff;
+    padding:15px;
+    border-top-left-radius:50px;
+    border-top-right-radius:50px;
+    margin-top:40px;
+}
+h1 {
+      margin: 0;
+      font-size: 22px;
+      animation: glow 6s infinite;
+    }
+    @keyframes glow {
+      0% { color: #fff; text-shadow: 0 0 8px crimson; }
+      25% { color: #ffeb3b; text-shadow: 0 0 10px green; }
+      50% { color: #00bcd4; text-shadow: 0 0 10px blue; }
+      75% { color: #e91e63; text-shadow: 0 0 10px purple; }
+      100% { color: #fff; text-shadow: 0 0 8px crimson; }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🧠 ଅଭ୍ୟାସ ( ଭୌତିକପର୍ଯ୍ୟାବରଣମ୍ )</h1>
+  <p>🌸🌸 ନିଜକୁ ନିଜେ ଜାଣିବା, ସମଗ୍ର ବିଶ୍ୱକୁ ଜାଣିବା 🌸🌸</p>
+</header>
+
+<div id="quizContainer"></div>
+
+<div class="controls" id="controlPanel">
+  <button id="prevBtn">⬅️ ପୂର୍ବ ପ୍ରଶ୍ନ</button>
+  <button id="markBtn">ପୁଣି ଦେଖିବି 🔔</button>
+  <button id="nextBtn">ପର ପ୍ରଶ୍ନ ➡️</button>
+</div>
+
+<div class="question-status" id="questionStatus"></div>
+<div class="status" id="status"></div>
+
+<div id="results">
+  <h2>📊 ଆପଣଙ୍କ ପରୀକ୍ଷା ଫଳ</h2>
+  <p class="status" id="scoreText"></p>
+  <div id="answers"></div>
+  <div class="controls" style="justify-content:center; text-align:center;">
+    <button onclick="printResult()">🖨️ ପ୍ରିଣ୍ଟ କରନ୍ତୁ</button>
+    <button onclick="shareResult()">📤 ସେୟାର କରନ୍ତୁ</button>
+    <button onclick="retakeQuiz()">🔁 ପୁଣି ଆରମ୍ଭ କରନ୍ତୁ</button>
+  </div>
+</div>
+
+<footer>© 2025 ମୋ ପରୀକ୍ଷା ସାଥି | ❤ ଦ୍ୱାରା ତିଆରି</footer>
+
+<script>
+// ✅ Base question pool
+const allQuestions = [
+  {"question": "जगत् परितः आवरणं ______ ।", "options": ["ग्रहमण्डलम्", "नक्षत्रमण्डलम्", "पर्यावरणम्", "दिव्यमण्डलम्"], "answer": 2},
+    {"question": "'परि'  ______ इति अनयोः योगेन पर्यावरणः शब्दः ।", "options": ["आचमन", "आचरण", "आवरण", "आभूषण"], "answer": 2},
+    {"question": "वेष्टने परिवेषः स्यात् ______ सविधमण्डले।", "options": ["चन्द्रस्य", "सूर्य्यस्य", "भानोः", "सवितुः"], "answer": 2},
+    {"question": "सृष्टि प्रक्रियायां _____ महाभूतानि परस्परं संश्लिष्टानि ।", "options": ["षट्", "सप्त", "चतुः", "पञ्च"], "answer": 3},
+    {"question": "सृष्टि प्रक्रियायां कानि संश्लिष्टानि ?", "options": ["पृथिवी, आकाशः च", "पृथिवी, आकाशः, जलं च", "पृथिवी, आकाशः, जलं, वायः च", "पञ्चमहाभूतानि"], "answer": 3},
+    {"question": "पर्यावरणं कति विधम् ?", "options": ["त्रिविधम्", "द्विविधम्", "चतुर्विधम्", "पञ्चविधम्"], "answer": 1},
+    {"question": "पृथिवी ______ ।", "options": ["युगंधरा", "विश्वम्भरा", "दिव्यगन्धा", "ऋतंभरा"], "answer": 1},
+    {"question": "अन्नाद् भवन्ति ______ ।", "options": ["विश्वानि", "भूतानि", "तत्त्वानि", "द्रव्याणि"], "answer": 1},
+    {"question": "पृथिवी एकः ______ ग्रहः ।", "options": ["विशालः", "क्षुद्रः", "मध्यमः", "विचित्रः"], "answer": 3},
+    {"question": "अद्-भ्यः ______ ।", "options": ["वायुः", "अग्निः", "आकाशः", "पृथिवी"], "answer": 3},
+    {"question": "जलं ____ उच्यते ।", "options": ["आपः, रसः ", "वारी", "उपरोक्त सर्बम्", "मेघः"], "answer": 2},
+    {"question": "का अस्माकं माता ?", "options": ["जननी", "जन्मदात्री", "पालनकर्त्री", "पृथिवी"], "answer": 3},
+    {"question": "वृक्षाणां ______ वायुप्रदूषणं वर्द्धते ।", "options": ["भेदनेन", "छेदनेन", "भञ्जनेन", "पातनेन"], "answer": 1},
+    {"question": "जीवनस्य आधारः______ ।", "options": ["आयुः", "आकाशः", "वायुः", "जलम्"], "answer": 2},
+    {"question": "वायो: ______ ।", "options": ["जलम्", "मेघः", "अग्निः", "अपः"], "answer": 2},
+    {"question": "अग्नेः______ ।", "options": ["आपः", "मेघः", "वायुः", "पृथिवी"], "answer": 0},
+    {"question": "अग्निः _____ रूपः ।", "options": ["ज्वलन्तः", "तेजः", "सूर्यः", "वायुः"], "answer": 1},
+    {"question": "कस्मात् वायोः उत्पत्तिः भवति ?", "options": ["पृथिव्याः", "जलात्", "आकाशात्", "अग्नेः"], "answer": 2},
+    {"question": "वायुमण्डलस्य विषप्रक्रियां कः नाशयति ?", "options": ["सूर्यः", "चन्द्रः", "अग्निः", "जलम्"], "answer": 2},
+    {"question": "कः तेज रूपः ?", "options": ["सूर्यः", "आकाशः", "अग्निः", "पृथिवी"], "answer": 2},
+    {"question": "आकाशः ______ ।", "options": ["कर्त्ता", "पिता", "प्रजापतिः", "धर्त्ता"], "answer": 1},
+    {"question": "आकाशात् ______ ।", "options": ["अग्नि", "आपः", "पृथिवी", "वायुः"], "answer": 3},
+    {"question": "_____ संरक्षणेन सर्वे सुरक्षिताः भवन्ति ।", "options": ["भूमेः", "पृथिव्याः", "जलस्य", "बायोः"], "answer": 1},
+    {"question": "_____ अस्माकं पिता ।", "options": ["वायुः", "सूर्यः", "अग्निः", "आकाशः"], "answer": 3},
+    {"question": "रोगाः केन जायन्ते ?", "options": ["भूमेः प्रदूषितेन", "आकाशस्य प्रदूषितेन", "अग्नेः प्रदूषितेन", "जलप्रदूषितेन"], "answer": 0},
+    {"question": "कः वायुमण्डलं शुद्धं करोति ?", "options": ["अग्निः", "जलम्", "वृक्षः", "घृता हूतयः"], "answer": 0},
+    {"question": "कः अस्माकं पिता ?", "options": ["जन्मदाता", "पालनकर्त्री", "रक्षाकर्त्ता", "आकाशः"], "answer": 3},
+
+    {"question": "परिवेषः + तु", "options": ["परिवेषतु", "परिवेषस्तुः", "परिवेशस्तु", "परिवेषस्तु"], "answer": 3},
+    {"question": "यस्य + अर्थः", "options": ["यस्यार्थः", "यस्यर्थः", "यस्यार्थ", "यस्यर्थ"], "answer": 0},
+    {"question": "एकस्य + अपि", "options": ["एकस्यपि", "एकस्यापि", "एकस्यापिः", "एकस्यपिः"], "answer": 1},
+    {"question": "सृष्टिः + इयम्", "options": ["सृष्टिरयम्", "सृष्टिइयम्", "सृष्टिरियम्", "सृष्टि इयम्"], "answer": 2},
+    {"question": "सम् + चितम्", "options": ["सञ्चितम्", "सचितम्", "सच्चितं", "संचित"], "answer": 0},
+    {"question": "सम् + चरन्ति", "options": ["संचरति", "सञ्चरन्ति", "सचरति", "समचरति"], "answer": 1},
+    {"question": "यज्ञ + अग्निः", "options": ["यज्ञग्निः", "यज्ञाग्नि", "यज्ञाग्निः", "यज्ञाग्नी"], "answer": 2},
+    {"question": "गार्हपत्य + अग्निः", "options": ["गार्हपत्यग्नि", "ग्रार्हपत्यग्नि", "गार्हपत्याग्नि", "गार्हपत्याग्निः"], "answer": 3},
+    {"question": "सम् + चारः", "options": ["सचारः", "सचारम्", "सञ्चारः", "सञ्जारः"], "answer": 2},
+    {"question": "पर्य्यावरणम्", "options": ["परि + आवरणम्", "परि + वरणम्", "परि + आवरण", "परि + आवर"], "answer": 0},
+    {"question": "जल्लाज्जलम्", "options": ["जलात्+जलम्", "जलात्+जल", "जलक्+जलम्", "जलात+जलम्"], "answer": 0},
+    {"question": "तज्जलम्", "options": ["तत् + जलम्", "तत् + जल", "तत + जलम्", "तत् + जलम"], "answer": 0},
+    {"question": "एकस्यापि", "options": ["एकस्य + अपि", "एकस्य + आपि", "एक + अपि", "एकस्या + अपि"], "answer": 0},
+    {"question": "शान्तिरेधि", "options": ["शान्ति:+ एधि", "शान्ति + एधि", "शान्ति:+ एदि", "शान्ति: + एधी"], "answer": 0},
+
+  {"question": "<u>जीवजगतः</u> विकासः अभवत् ।", "options": ["कृद् योगे षष्ठी", "हेतुवाचक शब्दात् षष्ठी", "शेषे षष्ठी", "कृते योगे षष्ठी"], "answer": 0},
+  {"question": "<u>जगत् </u> परितः आवरणम् पर्यावरणम् ।", "options": ["अनुक्ते कर्मणि द्वितीया", "परितः शब्द योगे द्वितीया", "क्रिया विशेषणे द्वितीया", "अत्यन्त संयोगे द्वितीया"], "answer": 1},
+  {"question": "पर्यावरणे एतानि <u>भूतानि</u> गृहीतानि ।", "options": ["उक्ते कर्मणि प्रथमा", "कर्त्तरि प्रथमा", "अव्यय योगे प्रथमा", "कर्मणि द्वितीया"], "answer": 1},
+  {"question": "<u>पृथिवी</u> अस्माकं माता ।", "options": ["कर्त्तरि प्रथमा", "उक्ते कर्मणि प्रथमा", "अव्यययोगे प्रथमा", "सम्वोधने प्रथमा"], "answer": 0},
+  {"question": "वर्षाकाले <u>वृष्ट्या</u> तज्जलं अन्नम् उद्भावयति ।", "options": ["प्रकृत्यादिभ्यः तृतीया", "हेतौ तृतीया", "करणे तृतीया", "प्रयोजनार्थे तृतीया"], "answer": 0},
+  {"question": "पृथिवी <u>अस्माकं</u> माता ।", "options": ["कृद योगे षष्ठी", "सम्बन्धे षष्ठी", "अनादरे षष्ठी", "हेतोः प्रयोगे षष्ठी"], "answer": 1},
+  {"question": "वायुमण्डलस्य <u>विषप्रक्रियाम्</u> अग्निः नाशयति।", "options": ["कर्मणि द्वितीया", "क्रिया विशेषणे द्वितीया", "व्याप्त्यर्थे द्वितीया", "अत्यन्त संयोगे द्वितीया"], "answer": 0},
+  {"question": "प्राणवायुद्वरा <u>जीवनस्य </u> संचारः भवति ।", "options": ["कृद्योगे षष्ठी", "अनादरे षष्ठी", "सम्बन्धे षष्ठी", "षष्ठी हेतु प्रयोगे"], "answer": 0},
+  
+  {"question": "जलधारासु", "options": ["कर्मधारयः", "षष्ठी तत्पुरुषः", "पञ्चमी तत्पुरुषः", "बहुव्रीहिः"], "answer": 1},
+  {"question": "अशुद्धम्", "options": ["नञ् तत्पुरुषः", "निषेधार्थक बहुव्रीहिः", "द्विगुः", "अव्ययीभावः"], "answer": 0},
+  {"question": "वनजातः अग्निः", "options": ["वनजाग्नि", "वनाग्निः", "वनजाताग्निः", "वनजाताग्नि"], "answer": 1},
+  {"question": "महाभूतानि", "options": ["महान् भूतानि", "महत्भूतानि", "महान्ति भूतानि", "महान्ती भूतानि"], "answer": 3},
+  {"question": "विश्वम्भरा", "options": ["कर्मधारयः", "षष्ठी तत्पुरुषः", "उपपद् तत्पुरुष", "बहुव्रीहिः"], "answer": 3},
+  {"question": "वायोः मण्डलम् तस्मात्", "options": ["वायु मण्डलम्", "वायुमण्डलात्", "वायोमण्डलात्", "वायूमण्डलात्"], "answer": 1},
+  {"question": "जीवानां जगत्", "options": ["उपपद तत्पुरुष", "षष्ठी तत्पुरुष", "कर्मधारयः", "अव्ययी भावः"], "answer": 1}
+
+
+
+  // 👉 Add more questions here (total more than 20 for randomization)
+];
+
+// ✅ Shuffle helper function
+function shuffleArray(arr){
+  return arr.sort(()=>Math.random()-0.5);
+}
+
+// ✅ Pick random 20 and shuffle their options
+let quizData = shuffleArray(allQuestions).slice(0,20).map(q=>{
+  const shuffledOpts = shuffleArray([...q.options]);
+  const correctIndex = shuffledOpts.indexOf(q.options[q.answer]);
+  return {...q, options: shuffledOpts, answer: correctIndex};
+});
+
+let currentIndex = 0;
+let userAnswers = [];
+let reviewMarks = [];
+
+// Render question
+function renderQuestion(index){
+  const q = quizData[index];
+  const container = document.getElementById("quizContainer");
+  container.innerHTML = `
+    <div class="card question">
+      <div class="qtitle">${index+1}. ${q.question}</div>
+      <div class="options">
+        ${q.options.map((opt,i)=>`<div class="opt card" data-index="${i}">${opt}</div>`).join('')}
+      </div>
+    </div>
+  `;
+  document.getElementById("status").textContent = `ପ୍ରଶ୍ନ ${index+1} / ${quizData.length}`;
+
+  document.querySelectorAll(".opt").forEach(opt=>{
+    opt.addEventListener("click", ()=>{
+      document.querySelectorAll(".opt").forEach(o=>o.classList.remove("selected"));
+      opt.classList.add("selected");
+      userAnswers[index] = parseInt(opt.dataset.index);
+      updateStatus();
+    });
+  });
+  updateCircles();
+}
+
+function updateCircles(){
+  const panel = document.getElementById("questionStatus");
+  panel.innerHTML = quizData.map((q,i)=>{
+    let cls = "q-notattempted";
+    if(reviewMarks[i]) cls = "q-review";
+    else if(userAnswers[i] !== undefined) cls = "q-attempted";
+    return `<div class="q-circle ${cls}" onclick="jumpTo(${i})">${i+1}</div>`;
+  }).join('');
+}
+
+function jumpTo(i){
+  currentIndex = i;
+  renderQuestion(currentIndex);
+}
+
+document.getElementById("markBtn").addEventListener("click", ()=>{
+  reviewMarks[currentIndex] = !reviewMarks[currentIndex];
+  updateCircles();
+});
+
+document.getElementById("nextBtn").addEventListener("click", ()=>{
+  if(currentIndex < quizData.length-1){
+    currentIndex++;
+    renderQuestion(currentIndex);
+  } else {
+    showResults();
+  }
+});
+
+document.getElementById("prevBtn").addEventListener("click", ()=>{
+  if(currentIndex > 0){
+    currentIndex--;
+    renderQuestion(currentIndex);
+  }
+});
+
+function updateStatus(){
+  updateCircles();
+}
+
+function showResults(){
+  let correct = 0;
+  quizData.forEach((q,i)=>{
+    if(userAnswers[i]===q.answer) correct++;
+  });
+  const percent = Math.round((correct/quizData.length)*100);
+  document.getElementById("scoreText").textContent = `ଆପଣଙ୍କ ସ୍କୋର: ${correct}/${quizData.length} (${percent}%)`;
+
+  const answersEl = document.getElementById("answers");
+  answersEl.innerHTML = quizData.map((q,i)=>{
+    const userAns = userAnswers[i] !== undefined ? q.options[userAnswers[i]] : "❌ ନାହିଁ";
+    const isRight = userAnswers[i]===q.answer ? "right" : "wrong";
+    return `<div class="answer-block">
+      <b>${i+1}. ${q.question}</b><br>
+      ✅ ସଠିକ: <span class="right">${q.options[q.answer]}</span><br>
+      🧍 ଆପଣଙ୍କ: <span class="${isRight}">${userAns}</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById("quizContainer").style.display="none";
+  document.getElementById("controlPanel").style.display="none";
+  document.getElementById("questionStatus").style.display="none";
+  document.getElementById("results").style.display="block";
+}
+
+function printResult(){window.print();}
+function shareResult(){
+  const scoreText = document.getElementById("scoreText").textContent;
+  const shareMessage = `🎯 ମୋ ପରୀକ୍ଷା ସାଥି ରେ ମୁଁ ମୋ ଜ୍ଞାନ ପରୀକ୍ଷା କରିଲି!\n${scoreText}\n\n🤩 ଆପଣ ମଧ୍ୟ ଅଂଶଗ୍ରହଣ କରନ୍ତୁ!\n👉 moparikhyasathi.in`;
+  if(navigator.share){
+    navigator.share({title:"ମୋ ପରୀକ୍ଷା ସାଥି - Quiz Result", text:shareMessage, url:window.location.href});
+  } else {alert("Share this message:\n\n"+shareMessage);}
+}
+function retakeQuiz(){
+  quizData = shuffleArray(allQuestions).slice(0,20).map(q=>{
+    const shuffledOpts = shuffleArray([...q.options]);
+    const correctIndex = shuffledOpts.indexOf(q.options[q.answer]);
+    return {...q, options: shuffledOpts, answer: correctIndex};
+  });
+  currentIndex = 0;
+  userAnswers = [];
+  reviewMarks = [];
+  document.getElementById("results").style.display="none";
+  document.getElementById("quizContainer").style.display="block";
+  document.getElementById("controlPanel").style.display="flex";
+  document.getElementById("questionStatus").style.display="flex";
+  renderQuestion(currentIndex);
+}
+
+// Initial render
+renderQuestion(currentIndex);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice mo parikhya sathi</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Oriya:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --soft: linear-gradient(120deg,#ff6a00,#ff2e63);
+    --btn: #ff6a00;
+    --btn-hover: #ff2e63;
+    --correct: #00c851;
+    --wrong: #ff4444;
+    --attempted: #ff6a00;
+    --not-attempted: #999;
+    --review: #6a1b9a;
+    --opt-hover: #ff2e63;
+    --text-light: #fff;
+}
+
+body {
+    background: #fff8fb;
+    color: #222;
+    text-align: center;
+    line-height: 1.5;
+    font-family: 'Noto Sans Oriya', sans-serif;
+    font-size: 14px; /* 👈 global font size */
+}
+
+header {
+    background: linear-gradient(120deg,#ff6a00,#ff2e63);
+    padding:5px;
+    color:#fff;
+    border-bottom-left-radius:50px;
+    border-bottom-right-radius:50px;
+    box-shadow:0 5px 18px rgba(0,0,0,.18);
+}
+
+h1 { font-size: 30px; margin-bottom: 5px; }
+
+/* CARD STYLE for Question and Options */
+.card {
+    background:#fff;
+    padding:18px;
+    border-radius:16px;
+    box-shadow:0 6px 20px rgba(0,0,0,.08);
+    transition:.3s;
+    text-align:center;
+}
+.card:hover {
+    transform:translateY(-6px);
+    box-shadow:0 10px 28px rgba(0,0,0,.13);
+    background:linear-gradient(120deg,#ff6a00,#ff2e63);
+    color:#fff;
+}
+
+/* Question Container */
+.question {
+    padding: 25px;
+    margin: 20px auto;
+    max-width: 700px;
+}
+
+.qtitle {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* Options */
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.opt {
+    background: #ffdde1;
+    padding: 10px 0;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    transition: all 0.25s ease;
+}
+
+.opt:hover {
+    background: var(--opt-hover);
+    color: var(--text-light);
+    transform: scale(1.03);
+}
+
+.opt.selected {
+    background: var(--opt-hover);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(255,46,99,0.6);
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+
+.controls button {
+    background: linear-gradient(120deg,#ff6a00,#ff2e63);
+    color: #fff;
+    border: none;
+    padding: 10px 50px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-size: 16px;
+}
+
+.controls button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(255,46,99,0.4);
+}
+
+/* Question Navigation Panel */
+.question-status {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 25px auto;
+}
+
+.q-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    cursor: pointer;
+    color: #fff;
+    transition: transform 0.2s;
+}
+
+.q-circle:hover { transform: scale(1.1); }
+
+.q-attempted { background: var(--attempted); }
+.q-notattempted { background: var(--not-attempted); }
+.q-review { background: var(--review); }
+
+/* Results */
+#results {
+    display: none;
+    margin-top: 20px;
+    text-align: left; /* 👈 left align result text */
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#answers {
+    background: #fff1f7;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.answer-block { border-bottom: 1px solid #ddd; padding: 12px 0; }
+.right { color: var(--correct); font-weight: 700; }
+.wrong { color: var(--wrong); font-weight: 700; }
+
+/* Hide buttons when printing */
+@media print {
+  .controls button, #markBtn, #nextBtn, #prevBtn, #questionStatus { display: none !important; }
+}
+
+footer {
+    text-align:center;
+    background: linear-gradient(120deg,#ff6a00,#ff2e63);
+    color:#fff;
+    padding:15px;
+    border-top-left-radius:50px;
+    border-top-right-radius:50px;
+    margin-top:40px;
+}
+h1 {
+      margin: 0;
+      font-size: 22px;
+      animation: glow 6s infinite;
+    }
+    @keyframes glow {
+      0% { color: #fff; text-shadow: 0 0 8px crimson; }
+      25% { color: #ffeb3b; text-shadow: 0 0 10px green; }
+      50% { color: #00bcd4; text-shadow: 0 0 10px blue; }
+      75% { color: #e91e63; text-shadow: 0 0 10px purple; }
+      100% { color: #fff; text-shadow: 0 0 8px crimson; }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🧠 ଅଭ୍ୟାସ ( ସୀତାୟାଃ ବନଗମନମ୍ )</h1>
+  <p>🌸🌸 ନିଜକୁ ନିଜେ ଜାଣିବା, ସମଗ୍ର ବିଶ୍ୱକୁ ଜାଣିବା 🌸🌸</p>
+</header>
+
+<div id="quizContainer"></div>
+
+<div class="controls" id="controlPanel">
+  <button id="prevBtn">⬅️ ପୂର୍ବ ପ୍ରଶ୍ନ</button>
+  <button id="markBtn">ପୁଣି ଦେଖିବି 🔔</button>
+  <button id="nextBtn">ପର ପ୍ରଶ୍ନ ➡️</button>
+</div>
+
+<div class="question-status" id="questionStatus"></div>
+<div class="status" id="status"></div>
+
+<div id="results">
+  <h2>📊 ଆପଣଙ୍କ ପରୀକ୍ଷା ଫଳ</h2>
+  <p class="status" id="scoreText"></p>
+  <div id="answers"></div>
+  <div class="controls" style="justify-content:center; text-align:center;">
+    <button onclick="printResult()">🖨️ ପ୍ରିଣ୍ଟ କରନ୍ତୁ</button>
+    <button onclick="shareResult()">📤 ସେୟାର କରନ୍ତୁ</button>
+    <button onclick="retakeQuiz()">🔁 ପୁଣି ଆରମ୍ଭ କରନ୍ତୁ</button>
+  </div>
+</div>
+
+<footer>© 2025 ମୋ ପରୀକ୍ଷା ସାଥି | ❤ ଦ୍ୱାରା ତିଆରି</footer>
+
+<script>
+// ✅ Base question pool
+const allQuestions = [
+   {"question": "कः आदिकविः ?", "options": ["व्यासः", "वाल्मिकिः", "कालिदासः", "भवभूतिः"], "answer": 1},
+  {"question": "रामायणी कथा किदृशी ?", "options": ["सुखश्राव्यम्", "शिक्षणीयम्", "रम्या", "सुखपाठ्यम्"], "answer": 2},
+  {"question": "रामः किदृशं स्ववेश्म प्राविवेश ?", "options": ["रमणीयम्", "मनोहर", "सुबिभुषितम्", "सुसज्जितम्"], "answer": 2},
+  {"question": "कथं रामः अबाङ्मुखः अभवत् ?", "options": ["दुःखेन", "लज्जया", "क्रोधेन", "ईर्षया"], "answer": 1},
+  {"question": "अथ रामः ............ अवाङ्मुखः स्ववेश्मं प्रविवेश ?", "options": ["क्रोधेन", "अपमानात्", "ह्रीया", "लज्जया"], "answer": 2},
+  {"question": "सीते तत्र भवान्......... मां बनं प्रब्राजयति।", "options": ["मातः", "तातः", "भ्रातः", "दशरथः"], "answer": 1},
+  {"question": "कः सत्यप्रतिज्ञः आसीत् ?", "options": ["रामचन्द्रः", "भरतः", "दशरथः", "लक्ष्मणः"], "answer": 2},
+  {"question": "दशरथः कस्यै वरौ दत्तवान् ?", "options": ["कौशल्यायै", "कैकेयै", "सुमित्रायै", "सीतायै"], "answer": 1},
+  {"question": "रामेण ........ बर्षाणि दण्डके बस्तब्यम् ?", "options": ["एकादश", "त्रयोदश", "द्वादश", "चतुर्दश"], "answer": 3},
+  {"question": "यौवराज्ये कः नियोजितः ?", "options": ["शत्रुघ्नः", "भरतः", "रामचन्द्रः", "लक्ष्मणः"], "answer": 1},
+  {"question": "चतुर्दश बर्षाणि रामेण........ बस्तब्यम् ।", "options": ["महारण्ये", "चन्दकारण्ये", "दण्डकारण्ये", "अभयारण्ये"], "answer": 2},
+  {"question": "कस्य विप्रियं न कर्तब्यम् इति रामः अकथयत् ?", "options": ["लक्ष्मणस्य", "भरतस्य", "दशरथस्य", "कैकेय्याः"], "answer": 1},
+  {"question": "का भामिनी ?", "options": ["सीता", "कैकेयी", "सुमित्रा", "कौशल्या"], "answer": 0},
+  {"question": "का वैदेही ?", "options": ["कैकेयी", "सुमित्रा", "कौशल्या", "सीता"], "answer": 3},
+  {"question": "का प्रियार्हा प्रियवादिनी ?", "options": ["सीता", "कौशल्या", "कैकेयी", "उर्मिला"], "answer": 0},
+  {"question": "का भर्तृभाग्यम् उपासते ?", "options": ["देवी", "सखी", "नारी", "सती"], "answer": 2},
+  {"question": "नारी कस्य भाग्यं प्राप्नोति ?", "options": ["स्वभाग्यम्", "पितुः भाग्यम्", "स्वामिनः भाग्यम्", "भर्तृभाग्यम्"], "answer": 3},
+  {"question": "कः नरश्रेष्ठः ?", "options": ["रामः", "लक्ष्मणः", "भरतः", "दशरथः"], "answer": 0},
+  {"question": "का रामेण सह वनं गन्तुम् ऐच्छत् ?", "options": ["सीता", "लक्ष्मणः", "भरतः", "दशरथः"], "answer": 0},
+  {"question": "सीता किदृशं वनं गमिष्यति ?", "options": ["पुरुषम्", "दुर्गम्", "सेवितम्", "नानामृगगणाकीर्णम्"], "answer": 3},
+  {"question": "कः पुरुषर्षभः ?", "options": ["सीता", "लक्ष्मणः", "भरतः", "रामः"], "answer": 3},
+  {"question": "कः धर्मवत्सलः?", "options": ["श्रीरामः", "भरतः", "शत्रुघ्नः", "लक्ष्मणः"], "answer": 0},
+  {"question": "सुप्यते पर्णशय्याषु, स्वयं भग्नासु ........।", "options": ["महीतले", "धरातले", "भूमौ", "भूतले"], "answer": 3},
+  {"question": "......... पर्णशय्यासु सुप्यते।", "options": ["वने", "ग्रामे", "गिरौ", "भूमौ"], "answer": 3},
+  {"question": "......... न हि वनं तव।", "options": ["प्रियं", "इष्टम्", "क्षेमम्", "शुभम्"], "answer": 2},
+  {"question": "त्वद्वियोगेन मे राम ... इह जीवितम्।", "options": ["वस्तव्यम्", "त्यक्तव्यम्", "कर्त्तव्यम्", "हन्तव्यम्"], "answer": 1},
+  {"question": "सीतां विना रामाय किं न रोचते ?", "options": ["राजसुखम्", "धनसुखम्", "स्वर्गसुखम्", "वनवाससुखम्"], "answer": 2},
+  {"question": "आरभस्व .... वनवासक्षमाः क्रियाः।", "options": ["सिते", "वैदेही", "जनकनन्दिनी", "शुभश्रोणि"], "answer": 3},
+ 
+  {"question": "प्रविवेशाथ", "options": ["प्रविवेश+अथ", "प्रविवेशः+अथ", "प्रविवेश+अथ", "प्रविवेस+अथ"], "answer": 0},
+  {"question": "भाग्यमुपासते", "options": ["भाग्यम्+उपासतेः", "भाग्यं+उपासत", "भाग्यम्+उपासते", "भाग्य+उपासते"], "answer": 2},
+  {"question": "यथैव", "options": ["यथौ+व", "यथा+एव", "यथा+इव", "यथा+एवः"], "answer": 1},
+  {"question": "प्रहर्षश्च", "options": ["प्रहर्ष+च", "प्रहर्ष+श्च", "प्रहर्ष+च", "प्रहर्षः+च"], "answer": 3},
+  {"question": "मन्दमिदम्", "options": ["मन्दम्+मिदम्", "मन्दम्+इदम्", "मन्दं+इद", "मन्दमी+दम्"], "answer": 1},
+  {"question": "नार्येका", "options": ["नारि+एका", "नार्य्य+एका", "नारी+एका", "नारी+एकाः"], "answer": 2},
+  {"question": "चाति", "options": ["च+अति", "चः+अति", "चा+ति", "त+अतिः"], "answer": 0},
+  {"question": "नेदानीम्", "options": ["ने+दानीम्", "न+इदानीम्", "न+एदानीम्", "ना+इदानीम्"], "answer": 1},
+  {"question": "स्वर्गोऽपि", "options": ["स्वर्गो+पि", "स्वर्गः+पि", "स्वर्ग+अपि", "स्वर्गः+अपि"], "answer": 3},
+  {"question": "प्रियार्हा", "options": ["प्रिया+र्हा", "प्रिय+अर्हा", "प्रिय+अर्हा", "प्रिया+अर्हा"], "answer": 3},
+  {"question": "भवान्+तातः", "options": ["भवांस्तातः", "भवास्तातः", "भवाँस्तातः", "भवान्-स्तातः"], "answer": 0},
+  {"question": "किम्+इदम्", "options": ["किमेदम्", "किमिदम्", "किदम्", "कीमिदं"], "answer": 1},
+  {"question": "त्वत्+ऋते", "options": ["तदृते", "त्वदृते", "त्वदृत", "त्वतृते"], "answer": 1},
+  {"question": "पुत्रः+तथा", "options": ["पुत्रतथा", "पुत्रस्तथा", "पुत्रस्तथाः", "पुत्रःस्तथा"], "answer": 1},
+  {"question": "मुखवर्णः+च", "options": ["मुखवर्ण्णश्र्चः", "मुखवर्ण्णच", "मुखवर्ण्णचः", "मुखवर्ण्णश्च"], "answer": 3},
+  {"question": "नृप+उद्यते", "options": ["नृपपद्यते", "नृपपद्यते", "नृपोद्यते", "नृपद्यतेः"], "answer": 2},
+  {"question": "वसतः+तान्", "options": ["वसततान्", "वसन्तान्", "वसस्तान्", "बसतस्तान्"], "answer": 2},
+  {"question": "महान्ति+अत्र", "options": ["महान्तित्र", "महान्त्यत्र", "महान्तित्र", "महान्त्यत्रः"], "answer": 1},
+
+  {"question": "शोक सन्तप्तम्", "options": ["शोकेन सन्तप्तः", "शोके सन्तप्तम्", "शोकं सन्तप्तम्", "शोकात् सन्तप्तम्"], "answer": 0},
+  {"question": "विवर्ण्णवदनम्", "options": ["कर्मधारय", "बहुव्रीहिः", "तृतीयी तत्पुरुषः", "उपपद तत्पुरुषः"], "answer": 0},
+  {"question": "न पूर्वः", "options": ["अपूर्वः", "न पूर्वः", "व पूर्वः", "नपूर्व"], "answer": 0},
+  {"question": "महावरौ", "options": ["महान् वरः तौ", "महान्तौ वरौ", "महतः वरौ", "महान्ति वर तौ"], "answer": 1},
+  {"question": "महावनम्", "options": ["बहुव्रीहि", "तृतीया तत् पूरुषः", "कर्मधारयः", "द्वितीया तत् पूरुषः"], "answer": 3},
+  {"question": "रघुनन्दनः", "options": ["रघो नन्दनः यस्य सः", "रघुणा नन्दनः", "रघुं नन्दनः", "रघोः नन्दनः"], "answer": 3},
+  {"question": "धर्मज्ञे", "options": ["उपपद तत् पुरुषः", "षष्ठी तत् पुरुषः", "बहुव्रिही", "सप्तमी तत् पुरुषः"], "answer": 2},
+  {"question": "धर्मचारिणी", "options": ["धर्म चरति या सा", "धर्मं चरति या", "धर्मस्य चारिणी", "धर्मं आचारिणी"], "answer": 1},
+  {"question": "त्वद् वियोगेन", "options": ["तद् वियोगः तेन", "तेभ्यः वियोगः तेन", "त्वया वियोगः तेन", "तव वियोगः तेन"], "answer": 3},
+  {"question": "विसञ्ज्ञाम्", "options": ["विगता संज्ञा", "विगता संज्ञा यस्याः सा ताम्", "नास्ति संज्ञा यस्या तां", "विगतां संज्ञां"], "answer": 1},
+  {"question": "नरवरोत्तम", "options": ["षष्ठी तत्", "सप्तमी तत्", "कर्मधारयः", "बहुव्रीहिः"], "answer": 1} 
+  // 👉 Add more questions here (total more than 20 for randomization)
+];
+
+// ✅ Shuffle helper function
+function shuffleArray(arr){
+  return arr.sort(()=>Math.random()-0.5);
+}
+
+// ✅ Pick random 20 and shuffle their options
+let quizData = shuffleArray(allQuestions).slice(0,20).map(q=>{
+  const shuffledOpts = shuffleArray([...q.options]);
+  const correctIndex = shuffledOpts.indexOf(q.options[q.answer]);
+  return {...q, options: shuffledOpts, answer: correctIndex};
+});
+
+let currentIndex = 0;
+let userAnswers = [];
+let reviewMarks = [];
+
+// Render question
+function renderQuestion(index){
+  const q = quizData[index];
+  const container = document.getElementById("quizContainer");
+  container.innerHTML = `
+    <div class="card question">
+      <div class="qtitle">${index+1}. ${q.question}</div>
+      <div class="options">
+        ${q.options.map((opt,i)=>`<div class="opt card" data-index="${i}">${opt}</div>`).join('')}
+      </div>
+    </div>
+  `;
+  document.getElementById("status").textContent = `ପ୍ରଶ୍ନ ${index+1} / ${quizData.length}`;
+
+  document.querySelectorAll(".opt").forEach(opt=>{
+    opt.addEventListener("click", ()=>{
+      document.querySelectorAll(".opt").forEach(o=>o.classList.remove("selected"));
+      opt.classList.add("selected");
+      userAnswers[index] = parseInt(opt.dataset.index);
+      updateStatus();
+    });
+  });
+  updateCircles();
+}
+
+function updateCircles(){
+  const panel = document.getElementById("questionStatus");
+  panel.innerHTML = quizData.map((q,i)=>{
+    let cls = "q-notattempted";
+    if(reviewMarks[i]) cls = "q-review";
+    else if(userAnswers[i] !== undefined) cls = "q-attempted";
+    return `<div class="q-circle ${cls}" onclick="jumpTo(${i})">${i+1}</div>`;
+  }).join('');
+}
+
+function jumpTo(i){
+  currentIndex = i;
+  renderQuestion(currentIndex);
+}
+
+document.getElementById("markBtn").addEventListener("click", ()=>{
+  reviewMarks[currentIndex] = !reviewMarks[currentIndex];
+  updateCircles();
+});
+
+document.getElementById("nextBtn").addEventListener("click", ()=>{
+  if(currentIndex < quizData.length-1){
+    currentIndex++;
+    renderQuestion(currentIndex);
+  } else {
+    showResults();
+  }
+});
+
+document.getElementById("prevBtn").addEventListener("click", ()=>{
+  if(currentIndex > 0){
+    currentIndex--;
+    renderQuestion(currentIndex);
+  }
+});
+
+function updateStatus(){
+  updateCircles();
+}
+
+function showResults(){
+  let correct = 0;
+  quizData.forEach((q,i)=>{
+    if(userAnswers[i]===q.answer) correct++;
+  });
+  const percent = Math.round((correct/quizData.length)*100);
+  document.getElementById("scoreText").textContent = `ଆପଣଙ୍କ ସ୍କୋର: ${correct}/${quizData.length} (${percent}%)`;
+
+  const answersEl = document.getElementById("answers");
+  answersEl.innerHTML = quizData.map((q,i)=>{
+    const userAns = userAnswers[i] !== undefined ? q.options[userAnswers[i]] : "❌ ନାହିଁ";
+    const isRight = userAnswers[i]===q.answer ? "right" : "wrong";
+    return `<div class="answer-block">
+      <b>${i+1}. ${q.question}</b><br>
+      ✅ ସଠିକ: <span class="right">${q.options[q.answer]}</span><br>
+      🧍 ଆପଣଙ୍କ: <span class="${isRight}">${userAns}</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById("quizContainer").style.display="none";
+  document.getElementById("controlPanel").style.display="none";
+  document.getElementById("questionStatus").style.display="none";
+  document.getElementById("results").style.display="block";
+}
+
+function printResult(){window.print();}
+function shareResult(){
+  const scoreText = document.getElementById("scoreText").textContent;
+  const shareMessage = `🎯 ମୋ ପରୀକ୍ଷା ସାଥି ରେ ମୁଁ ମୋ ଜ୍ଞାନ ପରୀକ୍ଷା କରିଲି!\n${scoreText}\n\n🤩 ଆପଣ ମଧ୍ୟ ଅଂଶଗ୍ରହଣ କରନ୍ତୁ!\n👉 moparikhyasathi.in`;
+  if(navigator.share){
+    navigator.share({title:"ମୋ ପରୀକ୍ଷା ସାଥି - Quiz Result", text:shareMessage, url:window.location.href});
+  } else {alert("Share this message:\n\n"+shareMessage);}
+}
+function retakeQuiz(){
+  quizData = shuffleArray(allQuestions).slice(0,20).map(q=>{
+    const shuffledOpts = shuffleArray([...q.options]);
+    const correctIndex = shuffledOpts.indexOf(q.options[q.answer]);
+    return {...q, options: shuffledOpts, answer: correctIndex};
+  });
+  currentIndex = 0;
+  userAnswers = [];
+  reviewMarks = [];
+  document.getElementById("results").style.display="none";
+  document.getElementById("quizContainer").style.display="block";
+  document.getElementById("controlPanel").style.display="flex";
+  document.getElementById("questionStatus").style.display="flex";
+  renderQuestion(currentIndex);
+}
+
+// Initial render
+renderQuestion(currentIndex);
+</script>
+
+</body>
+</html>
