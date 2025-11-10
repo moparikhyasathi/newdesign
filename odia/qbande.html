@@ -41,20 +41,23 @@ header {
 
 h1 { font-size: 30px; margin-bottom: 5px; }
 
+
 /* CARD STYLE for Question and Options */
 .card {
-    background:#fff;
-    padding:18px;
-    border-radius:16px;
-    box-shadow:0 6px 20px rgba(0,0,0,.08);
-    transition:.3s;
-    text-align:center;
+    background: linear-gradient(120deg, #ff6a00, #ff2e63); /* fixed gradient color */
+    padding: 18px;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.08);
+    text-align: center;
+    color: #fff; /* text stays white for contrast */
 }
+
+/* Remove hover transform and shadow */
 .card:hover {
-    transform:translateY(-6px);
-    box-shadow:0 10px 28px rgba(0,0,0,.13);
-    background:linear-gradient(120deg,#ff6a00,#ff2e63);
-    color:#fff;
+    transform: none;
+    box-shadow: 0 6px 20px rgba(0,0,0,.08);
+    background: linear-gradient(120deg, #ff6a00, #ff2e63);
+    color: #fff;
 }
 
 /* Question Container */
@@ -89,19 +92,20 @@ h1 { font-size: 30px; margin-bottom: 5px; }
     transition: all 0.25s ease;
 }
 
+/* Option hover: nice orange tone */
 .opt:hover {
-    background: var(--opt-hover);
-    color: var(--text-light);
+    background: green; /* orange hover */
+    color: #fff;
     transform: scale(1.03);
 }
 
+/* Selected option */
 .opt.selected {
-    background: var(--opt-hover);
+    background: #32CD32;
     color: #fff;
     font-weight: 700;
-    box-shadow: 0 0 10px rgba(255,46,99,0.6);
+    box-shadow: 0 0 10px rgba(255,140,66,0.6);
 }
-
 /* Controls */
 .controls {
     display: flex;
@@ -289,9 +293,7 @@ const allQuestions = [
 ];
 
 // ✅ Shuffle helper function
-function shuffleArray(arr){
-  return arr.sort(()=>Math.random()-0.5);
-}
+function shuffleArray(arr){ return arr.sort(()=>Math.random()-0.5); }
 
 // ✅ Pick random 20 and shuffle their options
 let quizData = shuffleArray(allQuestions).slice(0,20).map(q=>{
@@ -303,6 +305,8 @@ let quizData = shuffleArray(allQuestions).slice(0,20).map(q=>{
 let currentIndex = 0;
 let userAnswers = [];
 let reviewMarks = [];
+let startTime = Date.now();
+let userName = "";
 
 // Render question
 function renderQuestion(index){
@@ -326,6 +330,9 @@ function renderQuestion(index){
       updateStatus();
     });
   });
+
+  const nextBtn = document.getElementById("nextBtn");
+  nextBtn.textContent = (index === quizData.length-1) ? "📤 ଫଳ ଦେଖନ୍ତୁ (Submit)" : "ପର ପ୍ରଶ୍ନ ➡️";
   updateCircles();
 }
 
@@ -339,10 +346,7 @@ function updateCircles(){
   }).join('');
 }
 
-function jumpTo(i){
-  currentIndex = i;
-  renderQuestion(currentIndex);
-}
+function jumpTo(i){ currentIndex = i; renderQuestion(currentIndex); }
 
 document.getElementById("markBtn").addEventListener("click", ()=>{
   reviewMarks[currentIndex] = !reviewMarks[currentIndex];
@@ -354,7 +358,7 @@ document.getElementById("nextBtn").addEventListener("click", ()=>{
     currentIndex++;
     renderQuestion(currentIndex);
   } else {
-    showResults();
+    handleSubmit();
   }
 });
 
@@ -365,17 +369,67 @@ document.getElementById("prevBtn").addEventListener("click", ()=>{
   }
 });
 
-function updateStatus(){
-  updateCircles();
+function updateStatus(){ updateCircles(); }
+
+function handleSubmit(){
+  const endTime = Date.now();
+  const totalTimeSec = Math.floor((endTime - startTime)/1000);
+  const minutes = Math.floor(totalTimeSec/60);
+  const seconds = totalTimeSec % 60;
+
+  let correct = 0;
+  quizData.forEach((q,i)=>{ if(userAnswers[i]===q.answer) correct++; });
+  const wrong = quizData.length - correct;
+  const percent = Math.round((correct/quizData.length)*100);
+
+  if(percent > 70){
+    showCongratsPopup(correct, quizData.length, percent, minutes, seconds, wrong);
+  } else {
+    showResults(correct, percent, minutes, seconds, wrong);
+  }
 }
 
-function showResults(){
-  let correct = 0;
-  quizData.forEach((q,i)=>{
-    if(userAnswers[i]===q.answer) correct++;
+function showCongratsPopup(correct, total, percent, minutes, seconds, wrong){
+  const popup = document.createElement("div");
+  popup.style.position = "fixed";
+  popup.style.top = 0;
+  popup.style.left = 0;
+  popup.style.width = "100%";
+  popup.style.height = "100%";
+  popup.style.background = "rgba(0,0,0,0.6)";
+  popup.style.display = "flex";
+  popup.style.justifyContent = "center";
+  popup.style.alignItems = "center";
+  popup.style.zIndex = "9999";
+
+  popup.innerHTML = `
+    <div style="background:#fff; padding:25px 30px; border-radius:16px; max-width:400px; text-align:center; box-shadow:0 6px 20px rgba(0,0,0,0.3); font-family:'Noto Sans Oriya',sans-serif;">
+      <h2 style="color:#00c851;">🎉 ଅଭିନନ୍ଦନ!</h2>
+      <p>ଆପଣ ଉତ୍କୃଷ୍ଟ ଫଳ ହାସଲ କରିଛନ୍ତି!</p>
+      <p><b>ସ୍କୋର:</b> ${correct}/${total} (${percent}%)<br>
+         ⏱️ <b>ସମୟ:</b> ${minutes} ମିନିଟ୍ ${seconds} ସେକେଣ୍ଡ୍<br>
+         ❌ <b>ଭୁଲ:</b> ${wrong}</p>
+      <input type="text" id="userName" placeholder="ନାମ ଲେଖନ୍ତୁ" style="padding:8px 12px; border-radius:8px; border:1px solid #ccc; width:80%; font-size:16px;"><br><br>
+      <button id="okBtn" style="background:linear-gradient(120deg,#ff6a00,#ff2e63); color:#fff; border:none; padding:10px 30px; border-radius:10px; font-weight:600; cursor:pointer;">ଠିକ୍ ଅଛି ✅</button>
+    </div>
+  `;
+  document.body.appendChild(popup);
+
+  document.getElementById("okBtn").addEventListener("click", ()=>{
+    const name = document.getElementById("userName").value.trim();
+    if(name) userName = name;
+    document.body.removeChild(popup);
+    showResults(correct, percent, minutes, seconds, wrong);
   });
-  const percent = Math.round((correct/quizData.length)*100);
-  document.getElementById("scoreText").textContent = `ଆପଣଙ୍କ ସ୍କୋର: ${correct}/${quizData.length} (${percent}%)`;
+}
+
+function showResults(correct, percent, minutes, seconds, wrong){
+  document.getElementById("scoreText").innerHTML = `
+    <h3>👏 ${userName ? userName + ", " : ""}ଆପଣଙ୍କ ପରୀକ୍ଷା ଫଳ</h3>
+    <b>ସ୍କୋର:</b> ${correct}/${quizData.length} (${percent}%)<br>
+    ⏱️ <b>ସମୟ ଲାଗିଲା:</b> ${minutes} ମିନିଟ୍ ${seconds} ସେକେଣ୍ଡ<br>
+    ❌ <b>ଭୁଲ ଉତ୍ତର:</b> ${wrong}
+  `;
 
   const answersEl = document.getElementById("answers");
   answersEl.innerHTML = quizData.map((q,i)=>{
@@ -383,8 +437,8 @@ function showResults(){
     const isRight = userAnswers[i]===q.answer ? "right" : "wrong";
     return `<div class="answer-block">
       <b>${i+1}. ${q.question}</b><br>
-      ✅ ସଠିକ: <span class="right">${q.options[q.answer]}</span><br>
-      🧍 ଆପଣଙ୍କ: <span class="${isRight}">${userAns}</span>
+      ✅ ଠିକ ଉତ୍ତର: <span class="right">${q.options[q.answer]}</span><br>
+      🧍 ଆପଣ ଦେଇଥିବା ଉତ୍ତର: <span class="${isRight}">${userAns}</span>
     </div>`;
   }).join('');
 
@@ -395,13 +449,34 @@ function showResults(){
 }
 
 function printResult(){window.print();}
+
+// ✅ Modified Share Button — Odia text, no PDF
 function shareResult(){
   const scoreText = document.getElementById("scoreText").textContent;
-  const shareMessage = `🎯 ମୋ ପରୀକ୍ଷା ସାଥି ରେ ମୁଁ ମୋ ଜ୍ଞାନ ପରୀକ୍ଷା କରିଲି!\n${scoreText}\n\n🤩 ଆପଣ ମଧ୍ୟ ଅଂଶଗ୍ରହଣ କରନ୍ତୁ!\n👉 moparikhyasathi.in`;
+  const today = new Date();
+  const dateStr = `${today.getDate()}/${today.getMonth()+1}/${today.getFullYear()}`;
+  const shareMessage = 
+`🎯 ମୋ ପରୀକ୍ଷା ସାଥି ରେ ମୁଁ ମୋ ଜ୍ଞାନ ପରୀକ୍ଷା କରିଲି!
+
+👤 ନାମ: ${userName || "ଅଜଣା ଅଭ୍ୟାସୀ"}
+📊 ସ୍କୋର: ${scoreText.match(/\d+\/\d+/) || ""}
+⏱️ ସମୟ: ${scoreText.match(/\d+ ମିନିଟ୍ \d+ ସେକେଣ୍ଡ/) || ""}
+📅 ପରୀକ୍ଷା ତାରିଖ: ${dateStr}
+
+🤩 ଆପଣ ମଧ୍ୟ ଅଂଶଗ୍ରହଣ କରନ୍ତୁ!
+👉 https://moparikhyasathibseodisha.blogspot.com`;
+
   if(navigator.share){
-    navigator.share({title:"ମୋ ପରୀକ୍ଷା ସାଥି - Quiz Result", text:shareMessage, url:window.location.href});
-  } else {alert("Share this message:\n\n"+shareMessage);}
+    navigator.share({
+      title:"ମୋ ପରୀକ୍ଷା ସାଥି - ପରୀକ୍ଷା ଫଳ",
+      text:shareMessage,
+      url:"https://moparikhyasathibseodiaha.blogspot.com"
+    });
+  } else {
+    alert("Share this message:\n\n" + shareMessage);
+  }
 }
+
 function retakeQuiz(){
   quizData = shuffleArray(allQuestions).slice(0,20).map(q=>{
     const shuffledOpts = shuffleArray([...q.options]);
@@ -411,6 +486,8 @@ function retakeQuiz(){
   currentIndex = 0;
   userAnswers = [];
   reviewMarks = [];
+  startTime = Date.now();
+  userName = "";
   document.getElementById("results").style.display="none";
   document.getElementById("quizContainer").style.display="block";
   document.getElementById("controlPanel").style.display="flex";
@@ -421,6 +498,5 @@ function retakeQuiz(){
 // Initial render
 renderQuestion(currentIndex);
 </script>
-
 </body>
 </html>
